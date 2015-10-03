@@ -11,6 +11,7 @@ from .base import ReadOnlySource, one_sheet_tuple
 from ..constants import KEYWORD_URL
 from pyexcel_io import load_data
 from .._compact import request, PY2
+import js
 
 
 FILE_TYPE_MIME_TABLE = {
@@ -27,6 +28,7 @@ def get_file_type_from_url(url):
     extension = url.split('.')
     return extension[-1]
 
+SHEETS = None
 
 class HttpBookSource(ReadOnlySource):
     """
@@ -39,20 +41,20 @@ class HttpBookSource(ReadOnlySource):
         self.keywords = keywords
 
     def get_data(self):
-        f = request.urlopen(self.url)
-        info = f.info()
-        if PY2:
-            mime_type = info.type
-        else:
-            mime_type = info.get_content_type()
-        file_type = FILE_TYPE_MIME_TABLE.get(mime_type, None)
-        if file_type is None:
-            file_type = get_file_type_from_url(self.url)
-        content = f.read()
-        sheets = load_data(content,
-                           file_type=file_type,
-                           **self.keywords)
-        return sheets, KEYWORD_URL, None
+        global SHEETS
+        SHEETS = None
+        def report(data, a, response):
+            global SHEETS
+            mime_type = response.getResponseHeader('content-type')
+            file_type = FILE_TYPE_MIME_TABLE.get(mime_type, None)
+            if file_type is None:
+                file_type = get_file_type_from_url(self.url)
+            SHEETS = load_data(data,
+                               file_type=file_type,
+                               **self.keywords)
+        jquery = js.globals['$']
+        jquery.ajax({"url": self.url, "async":False}).success(report)
+        return SHEETS, KEYWORD_URL, None
 
 
 class HttpSheetSource(HttpBookSource):
@@ -68,6 +70,7 @@ class HttpSheetSource(HttpBookSource):
 
     def get_data(self):
         sheets, unused1, unused2 = HttpBookSource.get_data(self)
+        print type(sheets)
+        print sheets
         return one_sheet_tuple(sheets.items())
-
 
