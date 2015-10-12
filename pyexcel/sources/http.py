@@ -28,7 +28,6 @@ def get_file_type_from_url(url):
     extension = url.split('.')
     return extension[-1]
 
-SHEETS = None
 
 class HttpBookSource(ReadOnlySource):
     """
@@ -42,19 +41,17 @@ class HttpBookSource(ReadOnlySource):
 
     def get_data(self):
         global SHEETS
-        SHEETS = None
-        def report(data, a, response):
-            global SHEETS
-            mime_type = response.getResponseHeader('content-type')
-            file_type = FILE_TYPE_MIME_TABLE.get(mime_type, None)
-            if file_type is None:
-                file_type = get_file_type_from_url(self.url)
-            SHEETS = load_data(data,
-                               file_type=file_type,
-                               **self.keywords)
+        sheets = None
         jquery = js.globals['$']
-        jquery.ajax({"url": self.url, "async":False}).success(report)
-        return SHEETS, KEYWORD_URL, None
+        xhr = jquery.ajax({"url": self.url, "async":False})
+        mime_type = xhr.getResponseHeader('content-type')
+        file_type = FILE_TYPE_MIME_TABLE.get(mime_type, None)
+        if file_type is None:
+            file_type = get_file_type_from_url(self.url)
+        sheets = load_data(xhr.responseText,
+                           file_type=file_type,
+                           **self.keywords)
+        return sheets, KEYWORD_URL, None
 
 
 class HttpSheetSource(HttpBookSource):
