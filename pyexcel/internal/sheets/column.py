@@ -228,9 +228,10 @@ class Column(utils.CommonPropertyAmongRowNColumn):
             for i in my_range:
                 results.append(self._ref.column_at(i))
             return results
-        elif isinstance(aslice, str):
+
+        if isinstance(aslice, str):
             index = utils.excel_column_index(aslice)
-        if index in self._ref.column_range():
+        if utils.abs(index) in self._ref.column_range():
             return self._ref.column_at(index)
         else:
             raise IndexError

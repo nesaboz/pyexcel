@@ -123,3 +123,10 @@ def names_to_indices(names, series):
     else:
         return names
     return indices
+
+
+def abs(value):
+    if value < 0:
+        return value * -1
+    else:
+        return value

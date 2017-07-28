@@ -137,13 +137,13 @@ class TestMatrixColumn:
         assert m.row[0] == [3, 4, 5, 6]
 
     def test_set_columns(self):
-        r = Matrix(self.data)
+        matrix = Matrix(self.data)
         content = ['r', 's', 't', 'o']
-        r.column[1] = content
-        assert r.column[1] == content
-        assert r.column[0] == [1, 1, 1, '']
-        r.column['B'] = ['p', 'q', 'r']
-        assert r.column['B'] == ['p', 'q', 'r', 'o']
+        matrix.column[1] = content
+        assert matrix.column[1] == content
+        assert matrix.column[0] == [1, 1, 1, '']
+        matrix.column['B'] = ['p', 'q', 'r']
+        eq_(matrix.column['B'], ['p', 'q', 'r', 'o'])
 
     def test_set_a_slice_of_column(self):
         r = Matrix(self.data)

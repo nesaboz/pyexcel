@@ -189,7 +189,7 @@ class Row(utils.CommonPropertyAmongRowNColumn):
             for i in my_range:
                 results.append(self._ref.row_at(i))
             return results
-        if index in self._ref.row_range():
+        if abs(index) in self._ref.row_range():
             return self._ref.row_at(index)
         else:
             raise IndexError

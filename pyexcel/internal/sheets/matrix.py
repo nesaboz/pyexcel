@@ -96,6 +96,8 @@ class Matrix(SheetMeta):
         """
         if index in self.row_range():
             return copy.deepcopy(self.__array[index])
+        elif index < 0 and utils.abs(index) in self.row_range():
+            return copy.deepcopy(self.__array[index+self.number_of_rows()])
         else:
             raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
 
@@ -166,7 +168,7 @@ class Matrix(SheetMeta):
             unique_list = _unique(row_indices)
             sorted_list = sorted(unique_list, reverse=True)
             for i in sorted_list:
-                if i < self.number_of_rows():
+                if i < self.number_of_rows() and i >= 0:
                     del self.__array[i]
 
     def column_at(self, index):
@@ -177,6 +179,12 @@ class Matrix(SheetMeta):
             cell_array = []
             for i in self.row_range():
                 cell_array.append(self.cell_value(i, index))
+            return cell_array
+        elif index < 0 and utils.abs(index) in self.column_range():
+            cell_array = []
+            reverse_index = self.number_of_columns() + index
+            for i in self.row_range():
+                cell_array.append(self.cell_value(i, reverse_index))
             return cell_array
         else:
             raise IndexError(constants.MESSAGE_INDEX_OUT_OF_RANGE)
@@ -438,7 +446,7 @@ class Matrix(SheetMeta):
             sorted_list = sorted(unique_list, reverse=True)
             for i in self.row_range():
                 for j in sorted_list:
-                    if j < self.number_of_columns():
+                    if j < self.number_of_columns() and j >= 0:
                         del self.__array[i][j]
             self.__width = longest_row_number(self.__array)
 
