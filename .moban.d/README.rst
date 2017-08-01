@@ -14,12 +14,6 @@ Feature Highlights
    * Python data stuctures: dictionary, records and array
 2. One application programming interface(API) to read and write data in various excel file formats.
 
-
-Available Plugins
-=================
-
-{% include "plugins-list.rst.jj2"%}
-
 {% endblock %}
 
 {%block usage%}
@@ -27,16 +21,28 @@ Available Plugins
 Usage
 ===============
 
+.. image:: https://github.com/pyexcel/pyexcel-sortable/raw/master/sortable.gif
+
 .. code-block:: python
 
-    >>> import pyexcel
-    >>> content = "1,2,3\n3,4,5"
-    >>> sheet = pyexcel.Sheet()
-    >>> sheet.csv = content
-    >>> sheet.array
-    [[1, 2, 3], [3, 4, 5]]
-    >>> with open("myfile.xlsx", "wb") as output:
-    ...     write_count_not_used = output.write(sheet.xlsx)
+    >>> # pip install pyexcel-text==0.2.7.1
+    >>> import pyexcel as p
+    >>> ccs_insight2 = p.Sheet()
+    >>> ccs_insight2.name = "Worldwide Mobile Phone Shipments (Billions), 2017-2021"
+    >>> ccs_insight2.ndjson = """
+    ... {"year": ["2017", "2018", "2019", "2020", "2021"]}
+    ... {"smart phones": [1.53, 1.64, 1.74, 1.82, 1.90]}
+    ... {"feature phones": [0.46, 0.38, 0.30, 0.23, 0.17]}
+    ... """.strip()
+    >>> ccs_insight2
+    pyexcel sheet:
+    +----------------+------+------+------+------+------+
+    | year           | 2017 | 2018 | 2019 | 2020 | 2021 |
+    +----------------+------+------+------+------+------+
+    | smart phones   | 1.53 | 1.64 | 1.74 | 1.82 | 1.9  |
+    +----------------+------+------+------+------+------+
+    | feature phones | 0.46 | 0.38 | 0.3  | 0.23 | 0.17 |
+    +----------------+------+------+------+------+------+
 
 
 
@@ -93,6 +99,12 @@ Here are the method to obtain the records:
    >>> pe.free_resources()
 
 
+Available Plugins
+=================
+
+{% include "plugins-list.rst.jj2"%}
+
+
 Acknowledgement
 ===============
 
@@ -105,7 +117,8 @@ individual developers. This library unites only the data access code.
    
    >>> import os
    >>> os.unlink("your_file.xls")
-   >>> os.unlink("myfile.xlsx")
 
 {%endblock%}
 
+{%block development_guide%}
+{%endblock%}

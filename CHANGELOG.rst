@@ -13,10 +13,33 @@ Planned
 #. suppert missing pandas io features: use custom boolean values, write stylish
    spreadsheets.
 
+
+0.5.3 - 01-08-2017
+--------------------------------------------------------------------------------
+
+#. `#95 <https://github.com/pyexcel/pyexcel/issues/95>`_, respect the order of
+   records in iget_records, isave_as and save_as.
+#. `#97 <https://github.com/pyexcel/pyexcel/issues/97>`_, new feature to allow
+   intuitive initialization of pyexcel.Book.
+
+
+0.5.2 - 26-07-2017
+--------------------------------------------------------------------------------
+
 Updated
 ********************************************************************************
 
-#. support saving SheetStream and BookStream to database targets
+#. embeded the enabler for pyexcel-htmlr. http source does not support text/html
+   as mime type.
+
+0.5.1 - 12.06.2017
+--------------------------------------------------------------------------------
+
+Updated
+********************************************************************************
+
+#. support saving SheetStream and BookStream to database targets. This is needed
+   for pyexcel-webio and its downstream projects.
 
 0.5.0 - 19.06.2017
 --------------------------------------------------------------------------------

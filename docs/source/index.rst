@@ -69,14 +69,20 @@ For individual excel file formats, please install them as you wish:
    `pyexcel-ods3`_          ods                     `ezodf`_,       2.6, 2.7, 3.3, 3.4
                                                     lxml            3.5, 3.6
    `pyexcel-ods`_           ods                     `odfpy`_        same as above
-   `pyexcel-odsr`_          ods(read only)          lxml            same as above
-   `pyexcel-text`_          (write only)json, rst,  `tabulate`_     2.6, 2.7, 3.3, 3.4
+   `pyexcel-odsr`_          read only for ods, fods lxml            same as above
+   `pyexcel-htmlr`_         html(read only)         lxml,html5lib   same as above
+   `pyexcel-text`_          write only:rst,         `tabulate`_     2.6, 2.7, 3.3, 3.4
                             mediawiki, html,                        3.5, 3.6, pypy
                             latex, grid, pipe,
                             orgtbl, plain simple
+                            read only: ndjson
+                            r/w: json
    `pyexcel-handsontable`_  handsontable in html    `handsontable`_ same as above
    `pyexcel-pygal`_         svg chart               `pygal`_        2.7, 3.3, 3.4, 3.5
                                                                     3.6, pypy
+   `pyexcel-sortable`_      sortable table in html  `csvtotable`_   same as above
+   `pyexcel-gantt`_         gantt chart in html     `frappe-gantt`_ except pypy, same
+                                                                    as above
    ======================== ======================= =============== ==================
 
 .. _pyexcel-io: https://github.com/pyexcel/pyexcel-io
@@ -86,6 +92,7 @@ For individual excel file formats, please install them as you wish:
 .. _pyexcel-ods3: https://github.com/pyexcel/pyexcel-ods3
 .. _pyexcel-odsr: https://github.com/pyexcel/pyexcel-odsr
 .. _pyexcel-xlsxw: https://github.com/pyexcel/pyexcel-xlsxw
+.. _pyexcel-htmlr: https://github.com/pyexcel/pyexcel-htmlr
 
 .. _xlrd: https://github.com/python-excel/xlrd
 .. _xlwt: https://github.com/python-excel/xlwt
@@ -102,7 +109,10 @@ For individual excel file formats, please install them as you wish:
 .. _pygal: https://github.com/Kozea/pygal
 .. _pyexcel-matplotlib: https://github.com/pyexcel/pyexcel-matplotlib
 .. _matplotlib: https://matplotlib.org
-
+.. _pyexcel-sortable: https://github.com/pyexcel/pyexcel-sortable
+.. _csvtotable: https://github.com/vividvilla/csvtotable
+.. _pyexcel-gantt: https://github.com/pyexcel/pyexcel-gantt
+.. _frappe-gantt: https://github.com/frappe/gantt
 
 In order to manage the list of plugins installed, you need to use pip to add or remove
 a plugin. When you use virtualenv, you can have different plugins per virtual
@@ -120,12 +130,12 @@ For compatibility tables of pyexcel-io plugins, please click `here <http://pyexc
 
 .. table:: Plugin compatibility table
 
-    ======= ========== ============= ==================== =============
-    pyexcel pyexcel-io pyexcel-text  pyexcel-handsontable pyexcel-pygal
-    ======= ========== ============= ==================== =============
-    0.5.0   0.4.0      0.2.6         0.0.1			      0.0.1(coming)
+    ======= ========== ============= ==================== ============= =============
+    pyexcel pyexcel-io pyexcel-text  pyexcel-handsontable pyexcel-pygal pyexcel-gantt
+    ======= ========== ============= ==================== ============= =============
+    0.5.0+   0.4.0+    0.2.6+        0.0.1                0.0.1         0.0.1
     0.4.0+  0.3.0+     0.2.5
-    ======= ========== ============= ==================== =============
+    ======= ========== ============= ==================== ============= =============
 
 
 Usage
@@ -246,6 +256,7 @@ Developer's guide
    guide
    logging
    pyinstaller
+   plugin_howto
 
 Change log
 -------------------
