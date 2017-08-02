@@ -9,6 +9,12 @@
 :Released: |version|
 :Generated: |today|
 
+.. note::
+
+   The documentation of pyexcel v0.6.0 is under review and rewrite. If you
+   have missed some information, please read [v0.5.3](http://pyexcel.readthedocs.io/en/v0.5.3/)
+
+
 Introduction
 -------------
 
