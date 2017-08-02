@@ -12,19 +12,22 @@
 .. note::
 
    The documentation of pyexcel v0.6.0 is under review and rewrite. If you
-   have missed some information, please read [v0.5.3](http://pyexcel.readthedocs.io/en/v0.5.3/)
+   have missed some information, please read `v0.5.3 <http://pyexcel.readthedocs.io/en/v0.5.3/>`_
 
 
 Introduction
 -------------
 
-**pyexcel** provides **one** application programming interface to read,
-manipulate and write data in different excel formats. This library makes
-information processing involving excel files an enjoyable task. The data in
-excel files can be turned into :ref:`array or dict<a-list-of-data-structures>`
-with least code, vice versa. This library focuses on data
-processing using excel files as storage media hence fonts, colors and charts
-were not and will not be considered.
+**pyexcel** provides single application programming interface(API) to read, write and
+manipulate data in different excel file formats, in different storage media(
+disk, memory, database) and in different python data structures. Its loosely
+coupled architecture and well-defined plugin interface make the library easily
+extensible with the promise of a single API. Hence, this library makes
+information processing involving excel files, tabular data an enjoyable task.
+It is really handy to use this library to convert the data in
+excel files into :ref:`array or dict<a-list-of-data-structures>`
+with least code, or vice versa. With that said, fonts, colors and charts
+in the excel files were not and will not be considered.
 
 The idea originated from the common usability problem when developing an excel file
 driven web applications for non-technical office workers: such as office assistant,
@@ -144,6 +147,34 @@ For compatibility tables of pyexcel-io plugins, please click `here <http://pyexc
     ======= ========== ============= ==================== ============= =============
 
 
+.. table:: a list of support file formats
+
+    ============ =======================================================
+    file format  definition
+    ============ =======================================================
+    csv          comma separated values
+    tsv          tab separated values
+    csvz         a zip file that contains one or many csv files
+    tsvz         a zip file that contains one or many tsv files
+    xls          a spreadsheet file format created by
+                 MS-Excel 97-2003 [#f1]_
+    xlsx         MS-Excel Extensions to the Office Open XML
+                 SpreadsheetML File Format. [#f2]_
+    xlsm         an MS-Excel Macro-Enabled Workbook file
+    ods          open document spreadsheet
+	fods         flat open document spreadsheet
+    json         java script object notation
+    html         html table of the data structure
+    simple       simple presentation
+    rst          rStructured Text presentation of the data
+    mediawiki    media wiki table
+    ============ =======================================================
+
+		 
+.. [#f1] quoted from `whatis.com <http://whatis.techtarget.com/fileformat/XLS-Worksheet-file-Microsoft-Excel>`_. Technical details can be found at `MSDN XLS <https://msdn.microsoft.com/en-us/library/office/gg615597(v=office.14).aspx>`_
+.. [#f2] xlsx is used by MS-Excel 2007, more information can be found at `MSDN XLSX <https://msdn.microsoft.com/en-us/library/dd922181(v=office.12).aspx>`_
+
+
 Usage
 ------
 
@@ -209,7 +240,6 @@ Design
 
 .. toctree::
 
-   design
    capability
    architecture
 
