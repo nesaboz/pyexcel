@@ -1,6 +1,59 @@
 Signature functions
 ================================================================================
 
+Getters
+------------------------------------------------
+
+.. testcode::
+   :hide:
+
+   >>> import pyexcel as p
+   >>> from pyexcel._compact import OrderedDict
+   >>> content = OrderedDict()
+   >>> content.update({"Name": ["Adam", "Beatrice", "Ceri", "Dean"]})
+   >>> content.update({"Age": [28, 29, 30, 26]})
+   >>> p.save_as(adict=content, dest_file_name="your_file.xls")
+
+Suppose you want to process the following excel data :
+
+.. pyexcel-table::
+
+   ---pyexcel:example table---
+   Name,Age
+   Adam,28
+   Beatrice,29
+   Ceri,30
+   Dean,26
+
+You can get a list of records from the file:
+   
+   >>> records = p.get_records(file_name="your_file.xls")
+   >>> for record in records:
+   ...     print("%s is aged at %d" % (record['Name'], record['Age']))
+   Adam is aged at 28
+   Beatrice is aged at 29
+   Ceri is aged at 30
+   Dean is aged at 26
+
+
+The following code will give you the data in json::
+
+    >>> # "example.csv","example.xlsx","example.xlsm"
+    >>> for row in p.get_array(file_name="your_file.xls"):
+    ...     print("%s %s" % (row[0], row[1]))
+    Name Age
+    Adam 28
+    Beatrice 29
+    Ceri 30
+    Dean 26
+
+.. testcode::
+   :hide:
+
+   >>> import os
+   >>> os.unlink("your_file.xls")
+
+
 Import data into Python
 --------------------------------------------------------------------------------
 
@@ -59,7 +112,7 @@ The following two variants of the data access function use generator and should 
    Functions                       Name                                    Python name                      
    =============================== ======================================= ================================ 
    :meth:`~pyexcel.iget_array`     a memory efficient two dimensional      a generator of a list of lists
-		                           array
+                                   array
    :meth:`~pyexcel.iget_records`   a memory efficient list                 a generator of
                                    list of dictionaries                    a list of dictionaries
    =============================== ======================================= ================================
@@ -91,7 +144,8 @@ Get back into pyexcel
 list
 ********************************************************************************
 
-::
+.. code-block :: python
+
     >>> import pyexcel as p
     >>> two_dimensional_list = [
     ...    [1, 2, 3, 4],
@@ -99,7 +153,7 @@ list
     ...    [9, 10, 11, 12],
     ... ]
     >>> sheet = p.get_sheet(array=two_dimensional_list)
-	>>> sheet
+    >>> sheet
     pyexcel_sheet1:
     +---+----+----+----+
     | 1 | 2  | 3  | 4  |
@@ -112,13 +166,14 @@ list
 dict
 ***********
 
-::
+.. code-block :: python
+
     >>> a_dictionary_of_key_value_pair = {
     ...    "IE": 0.2,
     ...    "Firefox": 0.3
     ... }
     >>> sheet = p.get_sheet(adict=a_dictionary_of_key_value_pair)
-	>>> sheet
+    >>> sheet
     pyexcel_sheet1:
     +---------+-----+
     | Firefox | IE  |
@@ -126,14 +181,15 @@ dict
     | 0.3     | 0.2 |
     +---------+-----+
 
-::
+.. code-block :: python
+
     >>> a_dictionary_of_one_dimensional_arrays = {
     ...     "Column 1": [1, 2, 3, 4],
     ...     "Column 2": [5, 6, 7, 8],
     ...     "Column 3": [9, 10, 11, 12],
     ... }
     >>> sheet = p.get_sheet(adict=a_dictionary_of_one_dimensional_arrays)
-	>>> sheet
+    >>> sheet
     pyexcel_sheet1:
     +----------+----------+----------+
     | Column 1 | Column 2 | Column 3 |
@@ -150,7 +206,8 @@ dict
 records
 *************
 
-::
+.. code-block :: python
+
     >>> a_list_of_dictionaries = [
     ...     {
     ...         "Name": 'Adam',
@@ -170,7 +227,7 @@ records
     ...     }
     ... ]
     >>> sheet = p.get_sheet(records=a_list_of_dictionaries)
-	>>> sheet
+    >>> sheet
     pyexcel_sheet1:
     +-----+----------+
     | Age | Name     |
@@ -187,7 +244,8 @@ records
 book dict
 **************
 
-::
+.. code-block :: python
+
     >>> a_dictionary_of_two_dimensional_arrays = {
     ...      'Sheet 1':
     ...          [
@@ -209,7 +267,7 @@ book dict
     ...          ]
     ...  }
     >>> book = p.get_book(bookdict=a_dictionary_of_two_dimensional_arrays)
-	>>> book
+    >>> book
     Sheet 1:
     +-----+-----+-----+
     | 1.0 | 2.0 | 3.0 |
@@ -284,11 +342,11 @@ Here are the two functions:
 Functions                       Description
 =============================== ================================= 
 :meth:`~pyexcel.save_as`        Works well with single sheet file
-:meth:`~pyexcel.isave_as`       Works well with big data files	  
+:meth:`~pyexcel.isave_as`       Works well with big data files    
 :meth:`~pyexcel.save_book_as`   Works with multiple sheet file
-	                            and big data files
+                                and big data files
 :meth:`~pyexcel.isave_book_as`  Works with multiple sheet file
-	                            and big data files
+                                and big data files
 =============================== =================================
 
 If you would only use these two functions to do format transcoding, you may enjoy a
