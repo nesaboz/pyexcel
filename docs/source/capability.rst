@@ -75,8 +75,6 @@ Instead, what if you have to use :meth:`pyexcel.get_array` to do the same:
    regular(16 oz.) of Panera Coffee Light Roast has 300 mg
 
 where `start_row` skips the first row, which is the header row.
-
-Now, we wanted to draw a bar chart using coffee name vs coffeine. 
    
 .. testcode::
    :hide:
@@ -563,8 +561,8 @@ Please notice that "Sheet 2" is the first item in the *book_dict*, meaning the o
    >>> import os
    >>> os.unlink("book.xls")
 
-How to an excel sheet to a database using SQLAlchemy
-----------------------------------------------------
+How to import an excel sheet to a database using SQLAlchemy
+-----------------------------------------------------------
 
 .. NOTE::
 
@@ -721,22 +719,3 @@ How to open a xls multiple sheet excel book and save it as csv
 ----------------------------------------------------------------
 
 Well, you write similar codes as before but you will need to use :meth:`~pyexcel.save_book_as` function.
-
-  
-Data transportation/transcoding
---------------------------------------------------------------------------------
-
-Based the capability of this library, it is capable of transporting your data in
-between any of these data sources:
-
-   * physical file
-   * memory file
-   * SQLAlchemy table
-   * Django Model
-   * Python data structures: dictionary, records and array
-
-See also:
-
-* :ref:`import_excel_sheet_into_a_database_table`
-* :ref:`save_a_xls_as_a_xlsx`
-* :ref:`save_a_xls_as_a_csv`
