@@ -131,18 +131,12 @@ Here are the example usages:
    >>> import os
    >>> os.unlink("your_file.xls")
 
-Design
---------------------
-
-.. toctree::
-
-   capability
-   architecture
 
 Tutorial
 ----------
 .. toctree::
 
+   capability
    tutorial_file
    tutorial06
    attributes
