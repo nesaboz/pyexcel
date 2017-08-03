@@ -249,8 +249,7 @@ Tutorial
 
    tutorial_file
    tutorial06
-   tutorial_data_conversion
-   attributes.rst
+   attributes
    bigdata
    tutorial
    tutorial05
