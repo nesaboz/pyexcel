@@ -77,6 +77,9 @@ class Book(BookMeta):
     def __iter__(self):
         return SheetIterator(self)
 
+    def __len__(self):
+        return len(self.__name_array)
+
     def number_of_sheets(self):
         """
         Return the number of sheets

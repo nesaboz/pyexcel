@@ -13,6 +13,12 @@ Planned
 #. suppert missing pandas io features: use custom boolean values, write stylish
    spreadsheets.
 
+Updated
+********************************************************************************
+
+#. implemented __len__ for pyexcel.Book and pyexcel.Sheet. Suddenly, Sheet
+   could be a argument of Sheet. So Sheet(Sheet([[1, 2]])) works.
+
 
 0.5.3 - 01-08-2017
 --------------------------------------------------------------------------------

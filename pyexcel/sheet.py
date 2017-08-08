@@ -469,6 +469,9 @@ class Sheet(Matrix):
         else:
             Matrix.__setitem__(self, aset, c)
 
+    def __len__(self):
+        return self.number_of_rows()
+
 
 class _RepresentedString(object):
     """present in text"""
