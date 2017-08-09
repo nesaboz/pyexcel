@@ -1,4 +1,4 @@
-Signature functions
+Basic signature functions
 ================================================================================
 
 Four data access functions
@@ -199,183 +199,6 @@ Here is the code to obtain those sheets as a single dictionary::
    >>> os.unlink("book.xls")
 
 
-The following two variants of the data access function use generator and should work well with big data files
-
-.. table:: A list of variant functions
-
-   =============================== ======================================= ================================ 
-   Functions                       Name                                    Python name                      
-   =============================== ======================================= ================================ 
-   :meth:`~pyexcel.iget_array`     a memory efficient two dimensional      a generator of a list of lists
-                                   array
-   :meth:`~pyexcel.iget_records`   a memory efficient list                 a generator of
-                                   list of dictionaries                    a list of dictionaries
-   =============================== ======================================= ================================
-
-However, you will need to call :meth:`~pyexcel.free_resource` to make sure file
-handles are closed.
-
-
-The python data structures are list, dict, records and book dict. `records`
-refers to a list of dictionaries. `book dict` referes to a dictionary of
-key-value pair where value is a two dimensional array.
-
-
-Get back into pyexcel
-++++++++++++++++++++++++++++++++
-
-list
-********************************************************************************
-
-.. code-block :: python
-
-    >>> import pyexcel as p
-    >>> two_dimensional_list = [
-    ...    [1, 2, 3, 4],
-    ...    [5, 6, 7, 8],
-    ...    [9, 10, 11, 12],
-    ... ]
-    >>> sheet = p.get_sheet(array=two_dimensional_list)
-    >>> sheet
-    pyexcel_sheet1:
-    +---+----+----+----+
-    | 1 | 2  | 3  | 4  |
-    +---+----+----+----+
-    | 5 | 6  | 7  | 8  |
-    +---+----+----+----+
-    | 9 | 10 | 11 | 12 |
-    +---+----+----+----+
-
-dict
-***********
-
-.. code-block :: python
-
-    >>> a_dictionary_of_key_value_pair = {
-    ...    "IE": 0.2,
-    ...    "Firefox": 0.3
-    ... }
-    >>> sheet = p.get_sheet(adict=a_dictionary_of_key_value_pair)
-    >>> sheet
-    pyexcel_sheet1:
-    +---------+-----+
-    | Firefox | IE  |
-    +---------+-----+
-    | 0.3     | 0.2 |
-    +---------+-----+
-
-.. code-block :: python
-
-    >>> a_dictionary_of_one_dimensional_arrays = {
-    ...     "Column 1": [1, 2, 3, 4],
-    ...     "Column 2": [5, 6, 7, 8],
-    ...     "Column 3": [9, 10, 11, 12],
-    ... }
-    >>> sheet = p.get_sheet(adict=a_dictionary_of_one_dimensional_arrays)
-    >>> sheet
-    pyexcel_sheet1:
-    +----------+----------+----------+
-    | Column 1 | Column 2 | Column 3 |
-    +----------+----------+----------+
-    | 1        | 5        | 9        |
-    +----------+----------+----------+
-    | 2        | 6        | 10       |
-    +----------+----------+----------+
-    | 3        | 7        | 11       |
-    +----------+----------+----------+
-    | 4        | 8        | 12       |
-    +----------+----------+----------+
-
-records
-*************
-
-.. code-block :: python
-
-    >>> a_list_of_dictionaries = [
-    ...     {
-    ...         "Name": 'Adam',
-    ...         "Age": 28
-    ...     },
-    ...     {
-    ...         "Name": 'Beatrice',
-    ...         "Age": 29
-    ...     },
-    ...     {
-    ...         "Name": 'Ceri',
-    ...         "Age": 30
-    ...     },
-    ...     {
-    ...         "Name": 'Dean',
-    ...         "Age": 26
-    ...     }
-    ... ]
-    >>> sheet = p.get_sheet(records=a_list_of_dictionaries)
-    >>> sheet
-    pyexcel_sheet1:
-    +-----+----------+
-    | Age | Name     |
-    +-----+----------+
-    | 28  | Adam     |
-    +-----+----------+
-    | 29  | Beatrice |
-    +-----+----------+
-    | 30  | Ceri     |
-    +-----+----------+
-    | 26  | Dean     |
-    +-----+----------+
-
-book dict
-**************
-
-.. code-block :: python
-
-    >>> a_dictionary_of_two_dimensional_arrays = {
-    ...      'Sheet 1':
-    ...          [
-    ...              [1.0, 2.0, 3.0],
-    ...              [4.0, 5.0, 6.0],
-    ...              [7.0, 8.0, 9.0]
-    ...          ],
-    ...      'Sheet 2':
-    ...          [
-    ...              ['X', 'Y', 'Z'],
-    ...              [1.0, 2.0, 3.0],
-    ...              [4.0, 5.0, 6.0]
-    ...          ],
-    ...      'Sheet 3':
-    ...          [
-    ...              ['O', 'P', 'Q'],
-    ...              [3.0, 2.0, 1.0],
-    ...              [4.0, 3.0, 2.0]
-    ...          ]
-    ...  }
-    >>> book = p.get_book(bookdict=a_dictionary_of_two_dimensional_arrays)
-    >>> book
-    Sheet 1:
-    +-----+-----+-----+
-    | 1.0 | 2.0 | 3.0 |
-    +-----+-----+-----+
-    | 4.0 | 5.0 | 6.0 |
-    +-----+-----+-----+
-    | 7.0 | 8.0 | 9.0 |
-    +-----+-----+-----+
-    Sheet 2:
-    +-----+-----+-----+
-    | X   | Y   | Z   |
-    +-----+-----+-----+
-    | 1.0 | 2.0 | 3.0 |
-    +-----+-----+-----+
-    | 4.0 | 5.0 | 6.0 |
-    +-----+-----+-----+
-    Sheet 3:
-    +-----+-----+-----+
-    | O   | P   | Q   |
-    +-----+-----+-----+
-    | 3.0 | 2.0 | 1.0 |
-    +-----+-----+-----+
-    | 4.0 | 3.0 | 2.0 |
-    +-----+-----+-----+
-
 Two pyexcel functions
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -400,50 +223,16 @@ return value is what the function says.
 Export data from Python
 --------------------------------------------------------------------------------
 
-This library provides one application programming interface to transform them
-into one of the data structures:
-
-   * two dimensional array
-   * a (ordered) dictionary of one dimensional arrays
-   * a list of dictionaries
-   * a dictionary of two dimensional arrays
-   * a :class:`~pyexcel.Sheet`
-   * a :class:`~pyexcel.Book`
-
-and write to one of the following data sources:
-
-   * physical file
-   * memory file
-   * SQLAlchemy table
-   * Django Model
-   * Python data structures: dictionary, records and array
-
-
 Here are the two functions:
 
 =============================== =================================
 Functions                       Description
 =============================== ================================= 
 :meth:`~pyexcel.save_as`        Works well with single sheet file
-:meth:`~pyexcel.isave_as`       Works well with big data files    
 :meth:`~pyexcel.save_book_as`   Works with multiple sheet file
-                                and big data files
-:meth:`~pyexcel.isave_book_as`  Works with multiple sheet file
                                 and big data files
 =============================== =================================
 
-If you would only use these two functions to do format transcoding, you may enjoy a
-speed boost using :meth:`~pyexcel.isave_as` and :meth:`~pyexcel.isave_book_as`,
-because they use `yield` keyword and minimize memory footprint. However, you will
-need to call :meth:`~pyexcel.free_resource` to make sure file handles are closed.
-And :meth:`~pyexcel.save_as` and :meth:`~pyexcel.save_book_as` reads all data into
-memory and **will make all rows the same width**.
-
-See also:
-
-* :ref:`save_an_array_to_an_excel_sheet`
-* :ref:`save_an_book_dict_to_an_excel_book`
-* :ref:`save_an_array_to_a_csv_with_custom_delimiter`
 
 How to save an python array as an excel file
 ---------------------------------------------

@@ -241,6 +241,7 @@ Tutorial
 .. toctree::
 
    capability
+   advanced_capabilities
    tutorial_file
    tutorial06
    attributes
