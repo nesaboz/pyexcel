@@ -20,6 +20,13 @@ Signature functions
 Obtaining data from excel file
 -------------------------------
 
+It is believed that once a Python developer could easily operate on list,
+dictionary and various mixture of both. This library provides four module level
+functions to help you obtain excel data in those formats. Please refer to
+"A list of module level functions", the first three functions operates on any
+one sheet from an excel book and the fourth one returns all data in all sheets
+in an excel book.
+
 .. autosummary::
    :toctree: generated/
 
@@ -27,8 +34,26 @@ Obtaining data from excel file
    get_dict
    get_records
    get_book_dict
+
+In cases where the excel data needs custom manipulations, a pyexcel user got a
+few choices: one is to use :class:`~pyexcel.Sheet` and :class:`~pyexcel.Book`,
+the other is to look for more sophisticated ones:
+
+* Pandas, for numerical analysis
+* Do-it-yourself
+
+.. autosummary::
+   :toctree: generated/
+
    get_book
    get_sheet
+
+The following two variants of the data access function use generator and should work well with big data files. However, you will need to call :meth:`~pyexcel.free_resources` to make sure file handles are closed.
+
+
+.. autosummary::
+   :toctree: generated/
+
    iget_array
    iget_records
    free_resources
@@ -42,50 +67,24 @@ Saving data to excel file
    :toctree: generated/
 
    save_as
-   isave_as
    save_book_as
+
+
+The following functions would work with big data and will work every well
+with :meth:`~pyexcel.iget_array` and :meth:`~pyexcel.iget_records`.
+
+.. autosummary::
+   :toctree: generated/
+
+   isave_as
    isave_book_as
 
-
-These flags can be passed on all signature functions:
-
-auto_detect_int
-*******************
-
-Automatically convert float values to integers if the float number has no
-decimal values(e.g. 1.00). By default, it does the detection. Setting it to
-False will turn on this behavior
-
-It has no effect on pyexcel-xlsx because it does that by default.
-
-
-auto_detect_float
-***********************
-
-Automatically convert text to float values if possible. This applies only
-pyexcel-io where csv, tsv, csvz and tsvz formats are supported.  By default,
-it does the detection. Setting it to False will turn on this behavior
-
-
-auto_detect_datetime
-**********************
-
-Automatically convert text to python datetime if possible. This applies only
-pyexcel-io where csv, tsv, csvz and tsvz formats are supported.  By default,
-it does the detection. Setting it to False will turn on this behavior
-
-
-library
-**************
-
-Name a pyexcel plugin to handle a file format. In the situation where multiple
-plugins were pip installed, it is confusing for pyexcel on which plugin to
-handle the file format. For example, both pyexcel-xlsx and pyexcel-xls reads
-xlsx format. Now since version 0.2.2, you can pass on `library="pyexcel-xls"`
-to handle xlsx in a specific function call.
-
-It is better to uninstall the unwanted pyexcel plugin using pip if two plugins
-for the same file type are not absolutely necessary.
+If you would only use these two functions to do format transcoding, you may enjoy a
+speed boost using :meth:`~pyexcel.isave_as` and :meth:`~pyexcel.isave_book_as`,
+because they use `yield` keyword and minimize memory footprint. However, you will
+need to call :meth:`~pyexcel.free_resources` to make sure file handles are closed.
+And :meth:`~pyexcel.save_as` and :meth:`~pyexcel.save_book_as` reads all data into
+memory and **will make all rows the same width**.
 
 
 Cookbook

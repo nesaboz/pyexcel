@@ -241,7 +241,6 @@ Tutorial
 .. toctree::
 
    capability
-   advanced_capabilities
    tutorial_file
    tutorial06
    attributes
@@ -251,6 +250,7 @@ Tutorial
    tutorial02
    tutorial03
    tutorial04
+   database
 
 Cook book
 ----------

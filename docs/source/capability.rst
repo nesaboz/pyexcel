@@ -1,27 +1,8 @@
-Basic signature functions
+Quick start
 ================================================================================
 
 Four data access functions
 --------------------------------------------------------------------------------
-
-It is believed that once a Python developer could easily operate on list,
-dictionary and various mixture of both. This library provides four module level
-functions to help you obtain excel data in those formats. Please refer to
-"A list of module level functions", the first three functions operates on any
-one sheet from an excel book and the fourth one returns all data in all sheets
-in an excel book.
-
-.. table:: A list of module level functions
-
-   =============================== ======================================= ================================ 
-   Functions                       Name                                    Python name                      
-   =============================== ======================================= ================================ 
-   :meth:`~pyexcel.get_array`      two dimensional array                   a list of lists                 
-   :meth:`~pyexcel.get_dict`       a dictionary of one dimensional arrays  an ordered dictionary of lists           
-   :meth:`~pyexcel.get_records`    a list of dictionaries                  a list of dictionaries           
-   :meth:`~pyexcel.get_book_dict`  a dictionary of two dimensional arrays  a dictionary of lists of lists      
-   =============================== ======================================= ================================
-
 
 .. testcode::
    :hide:
@@ -83,7 +64,6 @@ where `start_row` skips the first row, which is the header row.
    >>> os.unlink("your_file.xls")
 
 Suppose you have a csv, xls, xlsx file as the following:
-
 
 .. pyexcel-table::
 
@@ -199,42 +179,7 @@ Here is the code to obtain those sheets as a single dictionary::
    >>> os.unlink("book.xls")
 
 
-Two pyexcel functions
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-In cases where the excel data needs custom manipulations, a pyexcel user got a
-few choices: one is to use :class:`~pyexcel.Sheet` and :class:`~pyexcel.Book`,
-the other is to look for more sophisticated ones:
-
-* Pandas, for numerical analysis
-* Do-it-yourself
-
-=============================== ================================ 
-Functions                       Returns                      
-=============================== ================================ 
-:meth:`~pyexcel.get_sheet`      :class:`~pyexcel.Sheet`
-:meth:`~pyexcel.get_book`       :class:`~pyexcel.Book`
-=============================== ================================ 
-
-For all six functions, you can pass on the same command parameters while the
-return value is what the function says.
-
-
-Export data from Python
---------------------------------------------------------------------------------
-
-Here are the two functions:
-
-=============================== =================================
-Functions                       Description
-=============================== ================================= 
-:meth:`~pyexcel.save_as`        Works well with single sheet file
-:meth:`~pyexcel.save_book_as`   Works with multiple sheet file
-                                and big data files
-=============================== =================================
-
-
-How to save an python array as an excel file
+Data export
 ---------------------------------------------
 
 Suppose you have the following array::
@@ -291,7 +236,8 @@ Let's verify it::
    >>> import os
    >>> os.unlink("example.csv")
 
-How to save a dictionary of two dimensional array as an excel file
+
+Export data as a multi-sheet excel file
 --------------------------------------------------------------------
 
 Suppose you want to save the below dictionary to an excel file ::
@@ -350,85 +296,8 @@ Please notice that "Sheet 2" is the first item in the *book_dict*, meaning the o
    >>> import os
    >>> os.unlink("book.xls")
 
-How to import an excel sheet to a database using SQLAlchemy
------------------------------------------------------------
 
-.. NOTE::
-
-   You can find the complete code of this example in examples folder on github
-
-Before going ahead, let's import the needed components and initialize sql
-engine and table base::
-
-   >>> from sqlalchemy import create_engine
-   >>> from sqlalchemy.ext.declarative import declarative_base
-   >>> from sqlalchemy import Column , Integer, String, Float, Date
-   >>> from sqlalchemy.orm import sessionmaker
-   >>> engine = create_engine("sqlite:///birth.db")
-   >>> Base = declarative_base()
-   >>> Session = sessionmaker(bind=engine)
-
-Let's suppose we have the following database model:
-
-   >>> class BirthRegister(Base):
-   ...     __tablename__='birth'
-   ...     id=Column(Integer, primary_key=True)
-   ...     name=Column(String)
-   ...     weight=Column(Float)
-   ...     birth=Column(Date)
-
-Let's create the table::
-  
-   >>> Base.metadata.create_all(engine)
-
-Now here is a sample excel file to be saved to the table:
-
-
-.. pyexcel-table::
-   
-   ---pyexcel:data table---
-   name,weight,birth     
-   Adam,3.4,2015-02-03
-   Smith,4.2,2014-11-12
-
-.. testcode::
-   :hide:
-
-   >>> import datetime
-   >>> data = [
-   ...    ["name", "weight", "birth"],
-   ...    ["Adam", 3.4, datetime.date(2015, 2, 3)],
-   ...    ["Smith", 4.2, datetime.date(2014, 11, 12)]
-   ... ]
-   >>> p.save_as(array=data, dest_file_name="birth.xls")
-
-Here is the code to import it:
-
-   >>> session = Session() # obtain a sql session
-   >>> p.save_as(file_name="birth.xls", name_columns_by_row=0, dest_session=session, dest_table=BirthRegister)
-
-Done it. It is that simple. Let's verify what has been imported to make sure.
-
-   >>> sheet = p.get_sheet(session=session, table=BirthRegister)
-   >>> sheet
-   birth:
-   +------------+----+-------+--------+
-   | birth      | id | name  | weight |
-   +------------+----+-------+--------+
-   | 2015-02-03 | 1  | Adam  | 3.4    |
-   +------------+----+-------+--------+
-   | 2014-11-12 | 2  | Smith | 4.2    |
-   +------------+----+-------+--------+
-
-.. testcode::
-   :hide:
-
-   >>> session.close()
-   >>> os.unlink('birth.db')
-
-.. _save_a_xls_as_a_csv:
-
-How to open an xls file and save it as csv
+File format transcoding
 -------------------------------------------
 
 .. testcode::
@@ -465,7 +334,6 @@ Again it is really simple. Let's verify what we have gotten:
    Please note that csv(comma separate value) file is pure text file. Formula, charts, images and formatting in xls file will disappear no matter which transcoding tool you use. Hence, pyexcel is a quick alternative for this transcoding job.
 
 
-.. _save_a_xls_as_a_xlsx:
 
 How to open an xls file and save it as xlsx
 ----------------------------------------------------------------------
@@ -501,7 +369,6 @@ Again let's verify what we have gotten:
    >>> os.unlink('birth.xls')
    >>> os.unlink('birth.csv')
    >>> os.unlink('birth.xlsx')
-
 
 
 How to open a xls multiple sheet excel book and save it as csv
