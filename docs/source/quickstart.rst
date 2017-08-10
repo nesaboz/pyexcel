@@ -18,7 +18,7 @@ Four data access functions
    >>> sheet = p.get_sheet(file_content=content, file_type='csv')
    >>> sheet.save_as("your_file.xls")
 
-Suppose you want to process the following excel data :
+Suppose you want to process the following coffee data:
 
 .. pyexcel-table::
 
@@ -55,7 +55,7 @@ Instead, what if you have to use :meth:`pyexcel.get_array` to do the same:
    grande(16 oz.) of Starbucks Coffee Pike Place Roast has 310 mg
    regular(16 oz.) of Panera Coffee Light Roast has 300 mg
 
-where `start_row` skips the first row, which is the header row.
+where `start_row` skips the header row.
    
 .. testcode::
    :hide:
@@ -63,7 +63,7 @@ where `start_row` skips the first row, which is the header row.
    >>> import os
    >>> os.unlink("your_file.xls")
 
-Suppose you have a csv, xls, xlsx file as the following:
+Suppose you have a xls file as the following:
 
 .. pyexcel-table::
 
@@ -107,14 +107,6 @@ Please note that my_dict is an OrderedDict.
 
    >>> import os
    >>> os.unlink("example_series.xls")
-
-
-How to obtain a dictionary from a multiple sheet book
--------------------------------------------------------
-
-.. testcode::
-   :hide:
-
    >>> a_dictionary_of_two_dimensional_arrays = {
    ...      'Sheet 1':
    ...          [
@@ -209,12 +201,7 @@ Let's verify it::
    >>> os.unlink("example.xls")
 
 
-
-Suppose you have the following array::
-
-   >>> data = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-
-And here is the code to save it as an excel file ::
+And here is the code to save it as a csv file ::
 
    >>> p.save_as(array=data,
    ...           dest_file_name="example.csv",
@@ -311,7 +298,7 @@ File format transcoding
    ... ]
    >>> p.save_as(array=data, dest_file_name="birth.xls")
 
-Suppose we want to save previous used example 'birth.xls' as a csv file ::
+The following code does a simple file format transcoding from xls to csv::
 
    >>> import pyexcel
    >>> p.save_as(file_name="birth.xls", dest_file_name="birth.csv")
@@ -334,16 +321,7 @@ Again it is really simple. Let's verify what we have gotten:
    Please note that csv(comma separate value) file is pure text file. Formula, charts, images and formatting in xls file will disappear no matter which transcoding tool you use. Hence, pyexcel is a quick alternative for this transcoding job.
 
 
-
-How to open an xls file and save it as xlsx
-----------------------------------------------------------------------
-
-.. WARNING::
-
-   Formula, charts, images and formatting in xls file will disappear as pyexcel does not support Formula, charts, images and formatting.
-
-
-Let use previous example and save it as ods instead
+Let use previous example and save it as xlsx instead
 
    >>> import pyexcel
    >>> p.save_as(file_name="birth.xls",
@@ -368,9 +346,3 @@ Again let's verify what we have gotten:
    >>> os.unlink('birth.xls')
    >>> os.unlink('birth.csv')
    >>> os.unlink('birth.xlsx')
-
-
-How to open a xls multiple sheet excel book and save it as csv
-----------------------------------------------------------------
-
-Well, you write similar codes as before but you will need to use :meth:`~pyexcel.save_book_as` function.

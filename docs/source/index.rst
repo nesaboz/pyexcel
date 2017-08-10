@@ -240,7 +240,7 @@ Tutorial
 ----------
 .. toctree::
 
-   capability
+   quickstart
    tutorial_file
    tutorial06
    attributes
