@@ -244,7 +244,6 @@ Tutorial
    tutorial_file
    tutorial06
    attributes
-   bigdata
    tutorial
    tutorial05
    tutorial02
