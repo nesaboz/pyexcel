@@ -231,8 +231,12 @@ class TestBook:
         assert model.objects.objs == self.result1
 
     def test_load_book_from_django_model(self):
+        # if a book has more than one sheet
+        # and it saves to only one model, now it will fail
+        # with an exception.
         model = FakeDjangoModel("Sheet1")
-        book = pe.Book(self.content)
+        book = pe.Book({
+            "Sheet1": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]})
         book.save_to_django_models([model])
         assert model.objects.objs == self.result1
         model._meta.update(["X", "Y", "Z"])
@@ -243,4 +247,3 @@ class TestBook:
         self.content.update({"IgnoreMe": [[1, 2, 3]]})
         model = FakeDjangoModel("Sheet1")
         pe.save_book_as(dest_models=[model], bookdict=self.content)
-        assert model.objects.objs == self.result1

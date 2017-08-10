@@ -11,6 +11,8 @@ How to import an excel sheet to a database using SQLAlchemy
 Before going ahead, let's import the needed components and initialize sql
 engine and table base::
 
+   >>> import os
+   >>> import pyexcel as p
    >>> from sqlalchemy import create_engine
    >>> from sqlalchemy.ext.declarative import declarative_base
    >>> from sqlalchemy import Column , Integer, String, Float, Date

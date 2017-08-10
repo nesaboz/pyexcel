@@ -365,7 +365,6 @@ Again let's verify what we have gotten:
 .. testcode::
    :hide:
 
-   >>> session.close()
    >>> os.unlink('birth.xls')
    >>> os.unlink('birth.csv')
    >>> os.unlink('birth.xlsx')
