@@ -248,6 +248,8 @@ Tutorial
    tutorial02
    tutorial03
    tutorial04
+   sheet
+   book
    database
 
 Cook book

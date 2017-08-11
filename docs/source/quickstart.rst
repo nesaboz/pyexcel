@@ -1,12 +1,19 @@
-Quick start
+One liners
 ================================================================================
 
-Four data access functions
+This section shows you how to get data from your excel files and how to
+export data to excel files in **one line**
+
+One liner to get data from the excel files
 --------------------------------------------------------------------------------
+
+Get a list of dictionaries
+********************************************************************************
 
 .. testcode::
    :hide:
 
+   >>> import os
    >>> import pyexcel as p
    >>> content="""
    ... Coffees,Serving Size,Caffeine (mg)
@@ -43,6 +50,9 @@ Let's get a list of dictionary out from the xls file:
    regular(16 oz.) of Panera Coffee Light Roast has 300 mg
 
 
+Get two dimensional array
+********************************************************************************
+
 Instead, what if you have to use :meth:`pyexcel.get_array` to do the same:
 
    >>> for row in p.get_array(file_name="your_file.xls", start_row=1):
@@ -56,12 +66,10 @@ Instead, what if you have to use :meth:`pyexcel.get_array` to do the same:
    regular(16 oz.) of Panera Coffee Light Roast has 300 mg
 
 where `start_row` skips the header row.
-   
-.. testcode::
-   :hide:
 
-   >>> import os
-   >>> os.unlink("your_file.xls")
+
+Get a dictionary
+********************************************************************************
 
 Suppose you have a xls file as the following:
 
@@ -102,11 +110,12 @@ Now let's get a dictionary out from the spreadsheet:
 
 Please note that my_dict is an OrderedDict.
 
+Get a dictionary of two dimensional array
+********************************************************************************
+
 .. testcode::
    :hide:
 
-   >>> import os
-   >>> os.unlink("example_series.xls")
    >>> a_dictionary_of_two_dimensional_arrays = {
    ...      'Sheet 1':
    ...          [
@@ -171,8 +180,11 @@ Here is the code to obtain those sheets as a single dictionary::
    >>> os.unlink("book.xls")
 
 
-Data export
+Data export in one line
 ---------------------------------------------
+
+Export an array
+**********************
 
 Suppose you have the following array::
 
@@ -223,9 +235,47 @@ Let's verify it::
    >>> import os
    >>> os.unlink("example.csv")
 
+Export a list of dictionaries
+**********************************
 
-Export data as a multi-sheet excel file
---------------------------------------------------------------------
+::
+
+    >>> records = [
+    ...     {"year": 1903, "country": "Germany", "speed": "206.7km/h"},
+    ...     {"year": 1964, "country": "Japan", "speed": "210km/h"},
+    ...     {"year": 2008, "country": "China", "speed": "350km/h"}
+    ... ]
+    >>> p.save_as(records=records, dest_file_name='high_speed_rail.xls')
+
+
+Export a dictionary of single key value pair
+********************************************************************************
+
+::
+
+    >>> henley_on_thames_facts = {
+    ...     "area": "5.58 square meters",
+    ...     "population": "11,619",
+    ...     "civial parish": "Henley-on-Thames",
+    ...     "latitude": "51.536",
+    ...     "longitude": "-0.898"
+    ... }
+    >>> p.save_as(adict=henley_on_thames_facts, dest_file_name='henley.xlsx')
+
+
+Export a dictionary of single dimensonal array
+********************************************************************************
+
+    >>> ccs_insights = {
+    ...     "year": ["2017", "2018", "2019", "2020", "2021"],
+    ...     "smart phones": [1.53, 1.64, 1.74, 1.82, 1.90],
+    ...     "feature phones": [0.46, 0.38, 0.30, 0.23, 0.17]
+    ... }
+    >>> p.save_as(adict=ccs_insights, dest_file_name='ccs.csv')
+
+
+Export a dictionary of two dimensional array as a book
+********************************************************************************
 
 Suppose you want to save the below dictionary to an excel file ::
   
@@ -277,14 +327,8 @@ Let's verify its order::
 
 Please notice that "Sheet 2" is the first item in the *book_dict*, meaning the order of sheets are preserved.
 
-.. testcode::
-   :hide:
 
-   >>> import os
-   >>> os.unlink("book.xls")
-
-
-File format transcoding
+File format transcoding on one line
 -------------------------------------------
 
 .. testcode::
@@ -346,3 +390,9 @@ Again let's verify what we have gotten:
    >>> os.unlink('birth.xls')
    >>> os.unlink('birth.csv')
    >>> os.unlink('birth.xlsx')
+   >>> os.unlink('high_speed_rail.xls')
+   >>> os.unlink('henley.xlsx')
+   >>> os.unlink('ccs.csv')
+   >>> os.unlink("book.xls")
+   >>> os.unlink("your_file.xls")
+   >>> os.unlink("example_series.xls")
