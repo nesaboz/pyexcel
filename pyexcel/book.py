@@ -19,7 +19,114 @@ class Book(BookMeta):
     """
     Read an excel book that has one or more sheets
 
-    For csv file, there will be just one sheet
+    You access each cell via this syntax::
+
+        book[sheet_index][row, column]
+
+    or::
+
+        book["sheet_name"][row, column]
+
+    Suppose you have the following sheets:
+
+    .. pyexcel-table::
+
+       ---pyexcel:Sheet 1---
+       1,2,3
+       4,5,6
+       7,8,9
+       ---pyexcel---
+       ---pyexcel:Sheet 2---
+       X,Y,Z
+       1,2,3
+       4,5,6
+       ---pyexcel---
+       ---pyexcel:Sheet 3---
+       O,P,Q
+       3,2,1
+       4,3,2
+
+    .. testcode::
+       :hide:
+
+       >>> data = {
+       ...      'Sheet 1':
+       ...          [
+       ...              [1.0, 2.0, 3.0],
+       ...              [4.0, 5.0, 6.0],
+       ...              [7.0, 8.0, 9.0]
+       ...          ],
+       ...      'Sheet 2':
+       ...          [
+       ...              ['X', 'Y', 'Z'],
+       ...              [1.0, 2.0, 3.0],
+       ...              [4.0, 5.0, 6.0]
+       ...          ],
+       ...      'Sheet 3':
+       ...          [
+       ...              ['O', 'P', 'Q'],
+       ...              [3.0, 2.0, 1.0],
+       ...              [4.0, 3.0, 2.0]
+       ...          ]
+       ...  }
+       >>> book = pyexcel.Book(data)
+       >>> book.save_as("example.xls")
+
+    And you can randomly access a cell in a sheet::
+
+        >>> book = pyexcel.get_book(file_name="example.xls")
+        >>> print(book["Sheet 1"][0,0])
+        1
+        >>> print(book[0][0,0]) # the same cell
+        1
+
+    .. TIP::
+      With pyexcel, you can regard single sheet reader as an
+      two dimensional array and multi-sheet excel book reader
+      as a ordered dictionary of two dimensional arrays.
+
+    **Write multiple sheet excel file**
+
+    Suppose you have previous data as a dictionary and you want to 
+    save it as multiple sheet excel file::
+
+        >>> content = {
+        ...     'Sheet 1':
+        ...         [
+        ...             [1.0, 2.0, 3.0],
+        ...             [4.0, 5.0, 6.0],
+        ...             [7.0, 8.0, 9.0]
+        ...         ],
+        ...     'Sheet 2':
+        ...         [
+        ...             ['X', 'Y', 'Z'],
+        ...             [1.0, 2.0, 3.0],
+        ...             [4.0, 5.0, 6.0]
+        ...         ],
+        ...     'Sheet 3':
+        ...         [
+        ...             ['O', 'P', 'Q'],
+        ...             [3.0, 2.0, 1.0],
+        ...             [4.0, 3.0, 2.0]
+        ...         ]
+        ... }
+        >>> book = pyexcel.get_book(bookdict=content)
+        >>> book.save_as("output.xls")
+    
+    You shall get a xls file
+    
+    
+    **Read multiple sheet excel file**
+    
+    Let's read the previous file back:
+    
+        >>> book = pyexcel.get_book(file_name="output.xls")
+        >>> sheets = book.to_dict()
+        >>> for name in sheets.keys():
+        ...     print(name)
+        Sheet 1
+        Sheet 2
+        Sheet 3
     """
 
     def __init__(self, sheets=None, filename="memory", path=None):

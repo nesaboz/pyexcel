@@ -142,7 +142,8 @@ For compatibility tables of pyexcel-io plugins, please click `here <http://pyexc
     ======= ========== ============= ==================== ============= =============
     pyexcel pyexcel-io pyexcel-text  pyexcel-handsontable pyexcel-pygal pyexcel-gantt
     ======= ========== ============= ==================== ============= =============
-    0.5.0+   0.4.0+    0.2.6+        0.0.1                0.0.1         0.0.1
+    0.6.0+  0.4.0+     0.2.6+        0.0.1                0.0.1         0.0.1
+    0.5.0+  0.4.0+     0.2.6+        0.0.1                0.0.1         0.0.1
     0.4.0+  0.3.0+     0.2.5
     ======= ========== ============= ==================== ============= =============
 
@@ -244,7 +245,6 @@ Tutorial
    tutorial_file
    tutorial06
    attributes
-   tutorial
    tutorial05
    tutorial02
    tutorial03
