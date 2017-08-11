@@ -1,7 +1,6 @@
 Sheet
 ==========
 
-
 Random access
 -----------------
 
@@ -269,22 +268,512 @@ You can pass on source specific parameters to getter and setter functions.
     >>> sheet.get_csv(delimiter="|")
     '1|2|3\r\n3|4|5\r\n'
 
-Example::
 
-    >>> import pyexcel as p
-    >>> content = {'A': [[1]]}
-    >>> b = p.get_book(bookdict=content)
-    >>> b
-    A:
-    +---+
-    | 1 |
-    +---+
-    >>> b[0].name
-    'A'
-    >>> b[0].name = 'B'
-    >>> b
-    B:
-    +---+
-    | 1 |
-    +---+
 
+Data manipulation 
+--------------------------------------------------------------------------------
+
+The data in a sheet is represented by :class:`~pyexcel.Sheet` which maintains the data
+as a list of lists. You can regard :class:`~pyexcel.Sheet` as a two dimensional array
+with additional iterators. Random access to individual column and row is exposed
+by :class:`~pyexcel.sheets.column.Column` and :class:`~pyexcel.sheets.row.Row` 
+
+
+Column manipulation
+********************************************************************************
+
+.. testcode::
+   :hide:
+
+   >>> import pyexcel
+   >>> data = [
+   ...      ["Column 1", "Column 2", "Column 3"],
+   ...      [1, 4, 7],
+   ...      [2, 5, 8],
+   ...      [3, 6, 9]
+   ...  ]
+   >>> s = pyexcel.Sheet(data)
+   >>> s.save_as("example.xls")
+
+Suppose have one data file as the following:
+
+.. code-block:: python
+
+    >>> sheet = pyexcel.get_sheet(file_name="example.xls", name_columns_by_row=0)
+    >>> sheet
+    pyexcel sheet:
+    +----------+----------+----------+
+    | Column 1 | Column 2 | Column 3 |
+    +==========+==========+==========+
+    | 1        | 4        | 7        |
+    +----------+----------+----------+
+    | 2        | 5        | 8        |
+    +----------+----------+----------+
+    | 3        | 6        | 9        |
+    +----------+----------+----------+
+
+And you want to update ``Column 2`` with these data: [11, 12, 13]
+
+.. code-block:: python
+
+    >>> sheet.column["Column 2"] = [11, 12, 13]
+    >>> sheet.column[1]
+    [11, 12, 13]
+    >>> sheet
+    pyexcel sheet:
+    +----------+----------+----------+
+    | Column 1 | Column 2 | Column 3 |
+    +==========+==========+==========+
+    | 1        | 11       | 7        |
+    +----------+----------+----------+
+    | 2        | 12       | 8        |
+    +----------+----------+----------+
+    | 3        | 13       | 9        |
+    +----------+----------+----------+
+
+Remove one column of a data file
+*********************************
+
+If you want to remove ``Column 2``, you can just call:
+
+.. code-block:: python
+
+    >>> del sheet.column["Column 2"]
+    >>> sheet.column["Column 3"]
+    [7, 8, 9]
+
+The sheet content will become:
+
+.. code-block:: python
+
+    >>> sheet
+    pyexcel sheet:
+    +----------+----------+
+    | Column 1 | Column 3 |
+    +==========+==========+
+    | 1        | 7        |
+    +----------+----------+
+    | 2        | 8        |
+    +----------+----------+
+    | 3        | 9        |
+    +----------+----------+
+
+
+Append more columns to a data file
+********************************************************************************
+
+Continue from previous example. Suppose you want add two more
+columns to the data file
+
+======== ========
+Column 4 Column 5
+======== ========
+10       13
+11       14
+12       15
+======== ========
+
+Here is the example code to append two extra columns:
+
+.. code-block:: python
+
+   >>> extra_data = [
+   ...    ["Column 4", "Column 5"],
+   ...    [10, 13],
+   ...    [11, 14],
+   ...    [12, 15]
+   ... ]
+   >>> sheet2 = pyexcel.Sheet(extra_data)
+   >>> sheet.column += sheet2
+   >>> sheet.column["Column 4"]
+   [10, 11, 12]
+   >>> sheet.column["Column 5"]
+   [13, 14, 15]
+
+Here is what you will get:
+
+.. code-block:: python
+
+    >>> sheet
+    pyexcel sheet:
+    +----------+----------+----------+----------+
+    | Column 1 | Column 3 | Column 4 | Column 5 |
+    +==========+==========+==========+==========+
+    | 1        | 7        | 10       | 13       |
+    +----------+----------+----------+----------+
+    | 2        | 8        | 11       | 14       |
+    +----------+----------+----------+----------+
+    | 3        | 9        | 12       | 15       |
+    +----------+----------+----------+----------+
+
+
+Cherry pick some columns to be removed
+***************************************
+
+Suppose you have the following data:
+
+.. code-block:: python
+
+     >>> data = [
+     ...     ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
+     ...     [1,2,3,4,5,6,7,9],
+     ... ]
+     >>> sheet = pyexcel.Sheet(data, name_columns_by_row=0)
+     >>> sheet
+     pyexcel sheet:
+     +---+---+---+---+---+---+---+---+
+     | a | b | c | d | e | f | g | h |
+     +===+===+===+===+===+===+===+===+
+     | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 |
+     +---+---+---+---+---+---+---+---+
+
+And you want to remove columns named as: 'a', 'c, 'e', 'h'. This is how you do it:
+
+.. code-block:: python
+
+     >>> del sheet.column['a', 'c', 'e', 'h']
+     >>> sheet
+     pyexcel sheet:
+     +---+---+---+---+
+     | b | d | f | g |
+     +===+===+===+===+
+     | 2 | 4 | 6 | 7 |
+     +---+---+---+---+
+
+What if the headers are in a different row
+********************************************************************************
+
+.. testcode::
+   :hide:
+
+   >>> data = [
+   ...     [1, 2, 3],
+   ...     ["Column 1", "Column 2", "Column 3"],
+   ...     [4, 5, 6]
+   ... ]
+   >>> sheet = pyexcel.Sheet(data)
+
+Suppose you have the following data:
+
+.. code-block:: python
+
+   >>> sheet
+   pyexcel sheet:
+   +----------+----------+----------+
+   | 1        | 2        | 3        |
+   +----------+----------+----------+
+   | Column 1 | Column 2 | Column 3 |
+   +----------+----------+----------+
+   | 4        | 5        | 6        |
+   +----------+----------+----------+
+
+The way to name your columns is to use index 1:
+
+.. code-block:: python
+
+   >>> sheet.name_columns_by_row(1)
+
+Here is what you get:
+
+.. code-block:: python
+
+   >>> sheet
+   pyexcel sheet:
+   +----------+----------+----------+
+   | Column 1 | Column 2 | Column 3 |
+   +==========+==========+==========+
+   | 1        | 2        | 3        |
+   +----------+----------+----------+
+   | 4        | 5        | 6        |
+   +----------+----------+----------+
+
+
+Row manipulation
+********************************************************************************
+
+.. testcode::
+   :hide:
+
+   >>> data = [
+   ...     ["a", "b", "c", "Row 1"],
+   ...     ["e", "f", "g", "Row 2"],
+   ...     [1, 2, 3, "Row 3"]
+   ... ]
+   >>> sheet = pyexcel.Sheet(data)
+
+Suppose you have the following data:
+
+.. code-block:: python
+
+   >>> sheet
+   pyexcel sheet:
+   +---+---+---+-------+
+   | a | b | c | Row 1 |
+   +---+---+---+-------+
+   | e | f | g | Row 2 |
+   +---+---+---+-------+
+   | 1 | 2 | 3 | Row 3 |
+   +---+---+---+-------+
+
+You can name your rows by column index at 3:
+
+.. code-block:: python
+
+    >>> sheet.name_rows_by_column(3)
+    >>> sheet
+    pyexcel sheet:
+    +-------+---+---+---+
+    | Row 1 | a | b | c |
+    +-------+---+---+---+
+    | Row 2 | e | f | g |
+    +-------+---+---+---+
+    | Row 3 | 1 | 2 | 3 |
+    +-------+---+---+---+
+
+Then you can access rows by its name:
+
+.. code-block:: python
+
+   >>> sheet.row["Row 1"]
+   ['a', 'b', 'c']
+
+.. testcode::
+   :hide:
+
+   >>> import os
+   >>> os.unlink("example.xls")
+
+
+Formatting
+--------------------------------------------------------------------------------
+
+
+Previous section has assumed the data is in the format that you want. In reality, you have to
+manipulate the data types a bit to suit your needs. Hence, formatters comes into the scene.
+use :meth:`~pyexcel.Sheet.format` to apply formatter immediately. 
+
+.. note::
+
+   **int**, **float** and **datetime** values are automatically detected in **csv** files
+   since **pyexcel** version 0.2.2
+
+
+Convert a column of numbers to strings
+********************************************************************************
+
+Suppose you have the following data:
+
+.. code-block:: python
+
+   >>> import pyexcel
+   >>> data = [
+   ...     ["userid","name"],
+   ...     [10120,"Adam"],  
+   ...     [10121,"Bella"],
+   ...     [10122,"Cedar"]
+   ... ]
+   >>> sheet = pyexcel.Sheet(data)
+   >>> sheet.name_columns_by_row(0)
+   >>> sheet.column["userid"]
+   [10120, 10121, 10122]
+
+As you can see, `userid` column is of `int` type. Next, let's convert the column to string format:
+
+.. code-block:: python
+
+    >>> sheet.column.format("userid", str)
+    >>> sheet.column["userid"]
+    ['10120', '10121', '10122']
+
+.. _cleansing:
+
+Cleanse the cells in a spread sheet
+********************************************************************************
+
+Sometimes, the data in a spreadsheet may have unwanted strings in all or some
+cells. Let's take an example. Suppose we have a spread sheet that contains
+all strings but it as random spaces before and after the text values. Some
+field had weird characters, such as "&nbsp;&nbsp;":
+
+.. code-block:: python
+
+   >>> data = [
+   ...     ["        Version", "        Comments", "       Author &nbsp;"],
+   ...     ["  v0.0.1       ", " Release versions","           &nbsp;Eda"],
+   ...     ["&nbsp; v0.0.2  ", "Useful updates &nbsp; &nbsp;", "  &nbsp;Freud"]
+   ... ]
+   >>> sheet = pyexcel.Sheet(data)
+   >>> sheet.content
+   +-----------------+------------------------------+----------------------+
+   |         Version |         Comments             |        Author &nbsp; |
+   +-----------------+------------------------------+----------------------+
+   |   v0.0.1        |  Release versions            |            &nbsp;Eda |
+   +-----------------+------------------------------+----------------------+
+   | &nbsp; v0.0.2   | Useful updates &nbsp; &nbsp; |   &nbsp;Freud        |
+   +-----------------+------------------------------+----------------------+
+
+
+Now try to create a custom cleanse function::
+  
+.. code-block:: python
+
+    >>> def cleanse_func(v):
+    ...     v = v.replace("&nbsp;", "")
+    ...     v = v.rstrip().strip()
+    ...     return v
+    ...
+
+Then let's create a :class:`~pyexcel.SheetFormatter` and apply it::
+
+.. code-block:: python
+
+    >>> sheet.map(cleanse_func)
+
+So in the end, you get this:
+
+.. code-block:: python
+
+    >>> sheet.content
+    +---------+------------------+--------+
+    | Version | Comments         | Author |
+    +---------+------------------+--------+
+    | v0.0.1  | Release versions | Eda    |
+    +---------+------------------+--------+
+    | v0.0.2  | Useful updates   | Freud  |
+    +---------+------------------+--------+
+
+
+Data filtering
+--------------------------------------------------------------------------------
+
+use :meth:`~pyexcel.Sheet.filter` function to apply a filter immediately. The content is modified.
+
+
+Suppose you have the following data in any of the supported excel formats:
+
+======== ======== ========
+Column 1 Column 2 Column 3
+======== ======== ========
+1        4        7
+2        5        8
+3        6        9
+======== ======== ========
+
+    >>> import pyexcel
+
+.. testcode::
+   :hide:
+
+   >>> import os
+   >>> data = [
+   ...      ["Column 1", "Column 2", "Column 3"],
+   ...      [1, 2, 3],
+   ...      [4, 5, 6],
+   ...      [7, 8, 9]
+   ...  ]
+   >>> s = pyexcel.Sheet(data)
+   >>> s.save_as("example_series.xls")
+
+.. code-block:: python
+
+    >>> sheet = pyexcel.get_sheet(file_name="example_series.xls", name_columns_by_row=0)
+    >>> sheet.content
+    +----------+----------+----------+
+    | Column 1 | Column 2 | Column 3 |
+    +==========+==========+==========+
+    | 1        | 2        | 3        |
+    +----------+----------+----------+
+    | 4        | 5        | 6        |
+    +----------+----------+----------+
+    | 7        | 8        | 9        |
+    +----------+----------+----------+
+
+Filter out some data
+********************************************************************************
+
+You may want to filter odd rows and print them in an array of dictionaries:
+
+.. code-block:: python
+
+    >>> sheet.filter(row_indices=[0, 2])
+    >>> sheet.content
+    +----------+----------+----------+
+    | Column 1 | Column 2 | Column 3 |
+    +==========+==========+==========+
+    | 4        | 5        | 6        |
+    +----------+----------+----------+
+
+Let's try to further filter out even columns:
+
+.. code-block:: python
+
+    >>> sheet.filter(column_indices=[1])
+    >>> sheet.content
+    +----------+----------+
+    | Column 1 | Column 3 |
+    +==========+==========+
+    | 4        | 6        |
+    +----------+----------+
+
+Save the data
+*************
+
+Let's save the previous filtered data:
+
+.. code-block:: python
+
+    >>> sheet.save_as("example_series_filter.xls")
+
+When you open `example_series_filter.xls`, you will find these data
+
+======== ========
+Column 1 Column 3
+======== ========
+2        8
+======== ========
+
+.. testcode::
+   :hide:
+
+   >>> import os
+   >>> os.unlink("example_series_filter.xls")
+
+
+How to filter out empty rows in my sheet?
+**************************************************
+
+Suppose you have the following data in a sheet and you want to remove those rows with blanks:
+
+.. code-block:: python
+
+    >>> import pyexcel as pe
+    >>> sheet = pe.Sheet([[1,2,3],['','',''],['','',''],[1,2,3]])
+
+You can use :class:`pyexcel.filters.RowValueFilter`, which examines each row, return `True` if the row should be filtered out. So, let's define a filter function:
+
+.. code-block:: python
+
+    >>> def filter_row(row_index, row):
+    ...     result = [element for element in row if element != '']
+    ...     return len(result)==0
+
+
+And then apply the filter on the sheet:
+
+.. code-block:: python
+
+    >>> del sheet.row[filter_row]
+    >>> sheet
+    pyexcel sheet:
+    +---+---+---+
+    | 1 | 2 | 3 |
+    +---+---+---+
+    | 1 | 2 | 3 |
+    +---+---+---+
+
+   
+
+.. testcode::
+   :hide:
+
+   >>> os.unlink("example_series.xls")
