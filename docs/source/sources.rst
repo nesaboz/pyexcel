@@ -190,3 +190,99 @@ Suppose you have excel file somewhere hosted::
    :hide:
 
    >>> patcher.stop()
+
+
+For sheet
+--------------------------------------------------------------------------------
+
+Get content
+************
+
+.. testcode::
+   :hide:
+
+   >>> from mock import patch, MagicMock
+   >>> import os
+   >>> patcher = patch('pyexcel._compact.request.urlopen')
+   >>> fake_url_open = patcher.start()
+   >>> response = MagicMock()
+   >>> response.type.return_value = 'application/vnd.ms-excel'
+   >>> method = MagicMock()
+   >>> xls_file = open(os.path.join("examples", "basics", "multiple-sheets-example.xls"), 'rb')
+   >>> method.info.return_value = response
+   >>> method.read.return_value = xls_file.read()
+   >>> fake_url_open.return_value = method
+   >>> xls_file.close()
+
+.. code-block:: python
+
+   >>> another_sheet.url = "https://github.com/pyexcel/pyexcel/raw/master/examples/basics/multiple-sheets-example.xls"
+   >>> another_sheet.content
+   +---+---+---+
+   | 1 | 2 | 3 |
+   +---+---+---+
+   | 4 | 5 | 6 |
+   +---+---+---+
+   | 7 | 8 | 9 |
+   +---+---+---+
+
+.. testcode::
+   :hide:
+
+   >>> patcher.stop()
+
+   
+For book
+--------------------------------------------------------------------------------
+
+How about setting content via a url?
+
+.. testcode::
+   :hide:
+
+   >>> from mock import patch, MagicMock
+   >>> import os
+   >>> patcher = patch('pyexcel._compact.request.urlopen')
+   >>> fake_url_open = patcher.start()
+   >>> response = MagicMock()
+   >>> response.type.return_value = 'application/vnd.ms-excel'
+   >>> method = MagicMock()
+   >>> xls_file = open(os.path.join("examples", "basics", "multiple-sheets-example.xls"), 'rb')
+   >>> method.info.return_value = response
+   >>> method.read.return_value = xls_file.read()
+   >>> fake_url_open.return_value = method
+   >>> xls_file.close()
+
+.. code-block:: python
+
+    >>> another_book.url = "https://github.com/pyexcel/pyexcel/raw/master/examples/basics/multiple-sheets-example.xls"
+    >>> another_book
+    Sheet 1:
+    +---+---+---+
+    | 1 | 2 | 3 |
+    +---+---+---+
+    | 4 | 5 | 6 |
+    +---+---+---+
+    | 7 | 8 | 9 |
+    +---+---+---+
+    Sheet 2:
+    +---+---+---+
+    | X | Y | Z |
+    +---+---+---+
+    | 1 | 2 | 3 |
+    +---+---+---+
+    | 4 | 5 | 6 |
+    +---+---+---+
+    Sheet 3:
+    +---+---+---+
+    | O | P | Q |
+    +---+---+---+
+    | 3 | 2 | 1 |
+    +---+---+---+
+    | 4 | 3 | 2 |
+    +---+---+---+
+
+.. testcode::
+   :hide:
+
+   >>> patcher.stop()

@@ -235,6 +235,73 @@ class Sheet(Matrix):
         [9, 6, 3, 8, 5, 2, 7, 4, 1]
 
 
+    **attributes**
+
+    .. code-block:: python
+
+        >>> import pyexcel
+        >>> content = "1,2,3\\n3,4,5"
+        >>> sheet = pyexcel.get_sheet(file_type="csv", file_content=content)
+        >>> sheet.tsv
+        '1\t2\t3\r\n3\t4\t5\r\n'
+        >>> print(sheet.simple)
+        csv:
+        -  -  -
+        1  2  3
+        3  4  5
+        -  -  -
+
+    What's more, you could as well set value to an attribute, for example:
+
+    .. code-block:: python
+
+        >>> import pyexcel
+        >>> content = "1,2,3\n3,4,5"
+        >>> sheet = pyexcel.Sheet()
+        >>> sheet.csv = content
+        >>> sheet.array
+        [[1, 2, 3], [3, 4, 5]]
+
+    You can get the direct access to underneath stream object. In some situation,
+    it is desired.
+
+
+    .. code-block:: python
+
+        >>> stream = sheet.stream.tsv
+
+    The returned stream object has tsv formatted content for reading.
+
+
+    What you could further do is to set a memory stream of any supported file format
+    to a sheet. For example:
+
+        >>> another_sheet = pyexcel.Sheet()
+        >>> another_sheet.xls = sheet.xls
+        >>> another_sheet.content
+        +---+---+---+
+        | 1 | 2 | 3 |
+        +---+---+---+
+        | 3 | 4 | 5 |
+        +---+---+---+
+
+    Yet, it is possible assign a absolute url to an online excel file
+    to an instance of :class:`pyexcel.Sheet`.
+
+    **custom attributes**
+
+    You can pass on source specific parameters to getter and setter functions.
+
+    .. code-block:: python
+
+        >>> content = "1-2-3\n3-4-5"
+        >>> sheet = pyexcel.Sheet()
+        >>> sheet.set_csv(content, delimiter="-")
+        >>> sheet.csv
+        '1,2,3\r\n3,4,5\r\n'
+        >>> sheet.get_csv(delimiter="|")
+        '1|2|3\r\n3|4|5\r\n'
+
     Example::
 
         >>> import pyexcel as p
