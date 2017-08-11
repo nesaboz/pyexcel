@@ -36,9 +36,12 @@ Suppose you want to process the following coffee data:
    Starbucks Coffee Pike Place Roast,grande(16 oz.),310
    Panera Coffee Light Roast,regular(16 oz.),300
 
-Let's get a list of dictionary out from the xls file:
+Let's get a list of dictionary out from the xls file::
    
    >>> records = p.get_records(file_name="your_file.xls")
+
+And let's check what do we have::
+
    >>> for record in records:
    ...     print("%s of %s has %s mg" % (
    ...         record['Serving Size'],
@@ -98,8 +101,11 @@ Now let's get a dictionary out from the spreadsheet:
 
 .. code-block:: python
     
-   >>> from pyexcel._compact import OrderedDict
    >>> my_dict = p.get_dict(file_name="example_series.xls", name_columns_by_row=0)
+
+And check what do we have::
+
+   >>> from pyexcel._compact import OrderedDict
    >>> isinstance(my_dict, OrderedDict)
    True
    >>> for key, values in my_dict.items():
@@ -163,10 +169,12 @@ Suppose you have a multiple sheet book as the following:
 
 Here is the code to obtain those sheets as a single dictionary::
 
-   >>> import json
    >>> book_dict = p.get_book_dict(file_name="book.xls")
+
+And check::
    >>> isinstance(book_dict, OrderedDict)
    True
+   >>> import json
    >>> for key, item in book_dict.items():
    ...     print(json.dumps({key: item}))
    {"Sheet 1": [[1, 2, 3], [4, 5, 6], [7, 8, 9]]}
@@ -228,12 +236,6 @@ Let's verify it::
    1:2:3
    4:5:6
    7:8:9
-
-.. testcode::
-   :hide:
-
-   >>> import os
-   >>> os.unlink("example.csv")
 
 Export a list of dictionaries
 **********************************
@@ -331,6 +333,13 @@ Please notice that "Sheet 2" is the first item in the *book_dict*, meaning the o
 File format transcoding on one line
 -------------------------------------------
 
+.. note::
+
+   Please note that the following file transcoding could be with zero line. Please
+   install pyexcel-cli and you will do the transcode in one command. No need to
+   open your editor, save the problem, then python run.
+
+
 .. testcode::
    :hide:
 
@@ -384,9 +393,100 @@ Again let's verify what we have gotten:
    | Smith | 4.2    | 12/11/14 |
    +-------+--------+----------+
 
+
+Excel book merge and split operation in one line
+--------------------------------------------------------------------------------
+
+Merge all excel files in directory into  a book where each file become a sheet
+********************************************************************************
+
+The following code will merge every excel files into one file, say "output.xls"::
+
+    from pyexcel.cookbook import merge_all_to_a_book
+    import glob
+
+
+    merge_all_to_a_book(glob.glob("your_csv_directory\*.csv"), "output.xls")
+
+You can mix and match with other excel formats: xls, xlsm and ods. For example, if you are sure you have only xls, xlsm, xlsx, ods and csv files in `your_excel_file_directory`, you can do the following::
+
+    from pyexcel.cookbook import merge_all_to_a_book
+    import glob
+
+
+    merge_all_to_a_book(glob.glob("your_excel_file_directory\*.*"), "output.xls")
+
+Split a book into single sheet files
+****************************************
+
 .. testcode::
    :hide:
 
+    >>> content = {
+    ...     'Sheet 1': 
+    ...         [
+    ...             [1.0, 2.0, 3.0], 
+    ...             [4.0, 5.0, 6.0], 
+    ...             [7.0, 8.0, 9.0]
+    ...         ],
+    ...     'Sheet 2': 
+    ...         [
+    ...             ['X', 'Y', 'Z'], 
+    ...             [1.0, 2.0, 3.0], 
+    ...             [4.0, 5.0, 6.0]
+    ...         ], 
+    ...     'Sheet 3': 
+    ...         [
+    ...             ['O', 'P', 'Q'], 
+    ...             [3.0, 2.0, 1.0], 
+    ...             [4.0, 3.0, 2.0]
+    ...         ] 
+    ... }
+    >>> book = pyexcel.Book(content)
+    >>> book.save_as("megabook.xls")
+
+Suppose you have many sheets in a work book and you would like to separate each into a single sheet excel file. You can easily do this::
+
+   >>> from pyexcel.cookbook import split_a_book
+   >>> split_a_book("megabook.xls", "output.xls")
+   >>> import glob
+   >>> outputfiles = glob.glob("*_output.xls")
+   >>> for file in sorted(outputfiles):
+   ...     print(file)
+   ...
+   Sheet 1_output.xls
+   Sheet 2_output.xls
+   Sheet 3_output.xls
+
+for the output file, you can specify any of the supported formats
+
+.. testcode::
+   :hide:
+
+   >>> os.unlink("Sheet 1_output.xls")
+   >>> os.unlink("Sheet 2_output.xls")
+   >>> os.unlink("Sheet 3_output.xls")
+
+Extract just one sheet from a book
+*************************************
+
+
+Suppose you just want to extract one sheet from many sheets that exists in a work book and you would like to separate it into a single sheet excel file. You can easily do this::
+
+    >>> from pyexcel.cookbook import extract_a_sheet_from_a_book
+    >>> extract_a_sheet_from_a_book("megabook.xls", "Sheet 1", "output.xls")
+    >>> if os.path.exists("Sheet 1_output.xls"):
+    ...     print("Sheet 1_output.xls exists")
+    ...
+    Sheet 1_output.xls exists
+
+for the output file, you can specify any of the supported formats
+
+.. testcode::
+   :hide:
+
+   >>> os.unlink("Sheet 1_output.xls")
+   >>> os.unlink("megabook.xls")
    >>> os.unlink('birth.xls')
    >>> os.unlink('birth.csv')
    >>> os.unlink('birth.xlsx')
@@ -396,3 +496,4 @@ Again let's verify what we have gotten:
    >>> os.unlink("book.xls")
    >>> os.unlink("your_file.xls")
    >>> os.unlink("example_series.xls")
+   >>> os.unlink("example.csv")
