@@ -1,4 +1,4 @@
-{% extends 'setup.py.jj2' %}
+{% extends 'pyexcel-setup.py.jj2' %}
 
 {% block additional_keywords %}
     'tsv',
@@ -10,8 +10,7 @@
     'ods'
 {% endblock %}
 
-{% block additional_classifiers %}
+{% block pyexcel_extra_classifiers %}
     'Development Status :: 3 - Alpha',
     'Programming Language :: Python :: Implementation :: PyPy'
 {% endblock %}}
-
