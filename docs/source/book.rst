@@ -489,3 +489,4 @@ the magic to load all of them back into a book. You will just need to provide th
    >>> os.unlink("book1.xls")
    >>> os.unlink("book2.xlsx")
    >>> os.unlink("merged.csv")
+   >>> os.unlink("output.xls")
