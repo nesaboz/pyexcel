@@ -216,6 +216,7 @@ Get content
 
 .. code-block:: python
 
+   >>> another_sheet = p.Sheet()
    >>> another_sheet.url = "https://github.com/pyexcel/pyexcel/raw/master/examples/basics/multiple-sheets-example.xls"
    >>> another_sheet.content
    +---+---+---+
@@ -255,6 +256,7 @@ How about setting content via a url?
 
 .. code-block:: python
 
+    >>> another_book = p.Book()
     >>> another_book.url = "https://github.com/pyexcel/pyexcel/raw/master/examples/basics/multiple-sheets-example.xls"
     >>> another_book
     Sheet 1:

@@ -226,8 +226,10 @@ class TestBook:
 
     def test_model_save_to_models(self):
         model = FakeDjangoModel("Sheet1")
+        data = {
+            "Sheet1": [[u'X', u'Y', u'Z'], [1, 4, 7], [2, 5, 8], [3, 6, 9]]}
         pe.save_book_as(dest_models=[model, None, None],
-                        bookdict=self.content)
+                        bookdict=data)
         assert model.objects.objs == self.result1
 
     def test_load_book_from_django_model(self):
@@ -243,6 +245,7 @@ class TestBook:
         book2 = pe.get_book(models=[model])
         assert book2[0].to_array() == book[0].to_array()
 
+    @raises(Exception)
     def test_more_sheets_than_models(self):
         self.content.update({"IgnoreMe": [[1, 2, 3]]})
         model = FakeDjangoModel("Sheet1")

@@ -31,6 +31,7 @@ Suppose you have the following sheets:
 .. testcode::
    :hide:
 
+   >>> import pyexcel
    >>> data = {
    ...      'Sheet 1':
    ...          [
@@ -187,7 +188,7 @@ it is desired.
 
 .. code-block:: python
 
-    >>> stream = sheet.stream.plain
+    >>> stream = book.stream.plain
 
 The returned stream object has the content formatted in plain format
 for further reading.

@@ -33,6 +33,7 @@ Here is the example code showing how you can randomly access a cell:
 .. testcode::
    :hide:
 
+   >>> import pyexcel
    >>> data = [
    ...     ['Example', 'X', 'Y', 'Z'],
    ...     ['a', 1, 2, 3],
@@ -146,6 +147,19 @@ excel formats again:
    1,4,7
    2,5,8
    3,6,9
+
+
+.. testcode::
+   :hide:
+
+   >>> data = [
+   ...      ["Column 1", "Column 2", "Column 3"],
+   ...      [1, 2, 3],
+   ...      [4, 5, 6],
+   ...      [7, 8, 9]
+   ...  ]
+   >>> s = pyexcel.Sheet(data)
+   >>> s.save_as("example_series.xls")
 
 .. testcode::
 
