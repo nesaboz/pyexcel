@@ -36,6 +36,7 @@ pyexcel.Sheet
       ~Sheet.get_csvz
       ~Sheet.get_dict
       ~Sheet.get_echarts_html
+      ~Sheet.get_fods
       ~Sheet.get_gantt_html
       ~Sheet.get_grid
       ~Sheet.get_handsontable_html
@@ -97,6 +98,7 @@ pyexcel.Sheet
       ~Sheet.set_csvz
       ~Sheet.set_dict
       ~Sheet.set_echarts_html
+      ~Sheet.set_fods
       ~Sheet.set_gantt_html
       ~Sheet.set_grid
       ~Sheet.set_handsontable_html
@@ -150,6 +152,7 @@ pyexcel.Sheet
       ~Sheet.csvz
       ~Sheet.dict
       ~Sheet.echarts_html
+      ~Sheet.fods
       ~Sheet.gantt_html
       ~Sheet.grid
       ~Sheet.handsontable_html

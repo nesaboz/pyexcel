@@ -138,6 +138,7 @@ Tutorial
 .. toctree::
 
    quickstart
+   two-liners
    tutorial_file
    tutorial06
    sheet

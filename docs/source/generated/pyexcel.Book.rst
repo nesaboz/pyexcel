@@ -20,6 +20,7 @@ pyexcel.Book
       ~Book.get_csvz
       ~Book.get_dict
       ~Book.get_echarts_html
+      ~Book.get_fods
       ~Book.get_gantt_html
       ~Book.get_grid
       ~Book.get_handsontable_html
@@ -64,6 +65,7 @@ pyexcel.Book
       ~Book.set_csvz
       ~Book.set_dict
       ~Book.set_echarts_html
+      ~Book.set_fods
       ~Book.set_gantt_html
       ~Book.set_grid
       ~Book.set_handsontable_html
@@ -109,6 +111,7 @@ pyexcel.Book
       ~Book.csvz
       ~Book.dict
       ~Book.echarts_html
+      ~Book.fods
       ~Book.gantt_html
       ~Book.grid
       ~Book.handsontable_html
