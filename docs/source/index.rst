@@ -80,18 +80,18 @@ For individual excel file formats, please install them as you wish:
    `pyexcel-ods`_           ods                     `odfpy`_          same as above
    `pyexcel-odsr`_          read only for ods, fods lxml              same as above
    `pyexcel-htmlr`_         html(read only)         lxml,html5lib     same as above
-   `pyexcel-text`_          write only:rst,         `tabulate`_     2.6, 2.7, 3.3, 3.4
-                            mediawiki, html,                        3.5, 3.6, pypy
+   `pyexcel-text`_          write only:rst,         `tabulate`_       2.6, 2.7, 3.3, 3.4
+                            mediawiki, html,                          3.5, 3.6, pypy
                             latex, grid, pipe,
                             orgtbl, plain simple
                             read only: ndjson
                             r/w: json
-   `pyexcel-handsontable`_  handsontable in html    `handsontable`_ same as above
-   `pyexcel-pygal`_         svg chart               `pygal`_        2.7, 3.3, 3.4, 3.5
-                                                                    3.6, pypy
-   `pyexcel-sortable`_      sortable table in html  `csvtotable`_   same as above
-   `pyexcel-gantt`_         gantt chart in html     `frappe-gantt`_ except pypy, same
-                                                                    as above
+   `pyexcel-handsontable`_  handsontable in html    `handsontable`_   same as above
+   `pyexcel-pygal`_         svg chart               `pygal`_          2.7, 3.3, 3.4, 3.5
+                                                                      3.6, pypy
+   `pyexcel-sortable`_      sortable table in html  `csvtotable`_     same as above
+   `pyexcel-gantt`_         gantt chart in html     `frappe-gantt`_   except pypy, same
+                                                                      as above
    ======================== ======================= ================= ==================
 
 .. _pyexcel-io: https://github.com/pyexcel/pyexcel-io
@@ -242,6 +242,7 @@ Tutorial
 .. toctree::
 
    quickstart
+   two-liners
    tutorial_file
    tutorial06
    sheet
