@@ -440,7 +440,7 @@ Split a book into single sheet files
     ...             [4.0, 3.0, 2.0]
     ...         ] 
     ... }
-    >>> book = pyexcel.Book(content)
+    >>> book = p.Book(content)
     >>> book.save_as("megabook.xls")
 
 Suppose you have many sheets in a work book and you would like to separate each into a single sheet excel file. You can easily do this::
