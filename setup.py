@@ -52,7 +52,7 @@ CLASSIFIERS = [
 
 INSTALL_REQUIRES = [
     'lml==0.0.1',
-    'pyexcel-io>=0.4.2',
+    'pyexcel-io>=0.4.4',
 ]
 
 if PY2:
