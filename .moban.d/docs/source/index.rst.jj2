@@ -10,15 +10,9 @@ Introduction
 -------------
 
 **pyexcel** provides single application programming interface(API) to read, write and
-manipulate data in different excel file formats, in different storage media(
-disk, memory, database) and in different python data structures. Its loosely
-coupled architecture and well-defined plugin interface make the library easily
-extensible with the promise of a single API. Hence, this library makes
-information processing involving excel files, tabular data an enjoyable task.
-It is really handy to use this library to convert the data in
-excel files into :ref:`array or dict<a-list-of-data-structures>`
-with least code, or vice versa. With that said, fonts, colors and charts
-in the excel files were not and will not be considered.
+manipulate data in different excel file formats, in different storage media(disk,
+memory, database) and in different python data structures. Its loosely
+coupled architecture makes it extremely extensible. 
 
 {% include "origin.rst.jj2" %}
 
@@ -140,7 +134,7 @@ Tutorial
    quickstart
    two-liners
    tutorial_file
-   tutorial06
+   webdev
    sheet
    book
    database

@@ -30,7 +30,7 @@ Suppose you want to process the following coffee data:
 
 .. pyexcel-table::
 
-   ---pyexcel:Top 5 coffeine drinks---
+   ---pyexcel:Huge list of coffeine drinks---
    Coffees,Serving Size,Caffeine (mg)
    Starbucks Coffee Blonde Roast,venti(20 oz),475
    Dunkin' Donuts Coffee with Turbo Shot,large(20 oz.),398
@@ -52,6 +52,9 @@ And let's check what do we have::
    large(20 oz.) of Dunkin' Donuts Coffee with Turbo Shot has 398 mg
    grande(16 oz.) of Starbucks Coffee Pike Place Roast has 310 mg
    regular(16 oz.) of Panera Coffee Light Roast has 300 mg
+
+Please do not forgot the second line::
+
    >>> p.free_resources()
 
 Get two dimensional array
@@ -68,11 +71,14 @@ Instead, what if you have to use :meth:`pyexcel.get_array` to do the same:
    large(20 oz.) of Dunkin' Donuts Coffee with Turbo Shot has 398 mg
    grande(16 oz.) of Starbucks Coffee Pike Place Roast has 310 mg
    regular(16 oz.) of Panera Coffee Light Roast has 300 mg
+
+Again, do not forgot the second line::
+
    >>> p.free_resources()
    
 where `start_row` skips the header row.
 
-Data export in one line
+Data export in one liners
 ---------------------------------------------
 
 Export an array
@@ -85,7 +91,11 @@ Suppose you have the following array::
 And here is the code to save it as an excel file ::
 
    >>> p.isave_as(array=data, dest_file_name="example.xls")
-   >>> p.free_resources()
+
+But the following line is not required because the data source
+are not file sources::
+
+   >>> # p.free_resources()
 
 Let's verify it::
 
@@ -111,7 +121,6 @@ And here is the code to save it as a csv file ::
    >>> p.isave_as(array=data,
    ...            dest_file_name="example.csv",
    ...            dest_delimiter=':')
-   >>> p.free_resources()
 
 Let's verify it::
 
@@ -134,7 +143,6 @@ Export a list of dictionaries
     ...     {"year": 2008, "country": "China", "speed": "350km/h"}
     ... ]
     >>> p.isave_as(records=records, dest_file_name='high_speed_rail.xls')
-    >>> p.free_resources()
 
 Export a dictionary of single key value pair
 ********************************************************************************
@@ -149,7 +157,6 @@ Export a dictionary of single key value pair
     ...     "longitude": "-0.898"
     ... }
     >>> p.isave_as(adict=henley_on_thames_facts, dest_file_name='henley.xlsx')
-    >>> p.free_resources()
 
 Export a dictionary of single dimensonal array
 ********************************************************************************

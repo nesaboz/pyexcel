@@ -172,25 +172,21 @@ Available Plugins
    `pyexcel-xls`_           xls, xlsx(read only),   `xlrd`_,          same as above
                             xlsm(read only)         `xlwt`_
    `pyexcel-xlsx`_          xlsx                    `openpyxl`_       same as above
-   `pyexcel-xlsxw`_         xlsx(write only)        `XlsxWriter`_     same as above
    `pyexcel-ods3`_          ods                     `pyexcel-ezodf`_, 2.6, 2.7, 3.3, 3.4
                                                     lxml              3.5, 3.6
    `pyexcel-ods`_           ods                     `odfpy`_          same as above
+   ======================== ======================= ================= ==================
+
+.. table:: Dedicated file reader and writers
+
+   ======================== ======================= ================= ==================
+   Package name              Supported file formats  Dependencies     Python versions
+   ======================== ======================= ================= ==================
+   `pyexcel-xlsxw`_         xlsx(write only)        `XlsxWriter`_     Python 2 and 3
    `pyexcel-odsr`_          read only for ods, fods lxml              same as above
    `pyexcel-htmlr`_         html(read only)         lxml,html5lib     same as above
-   `pyexcel-text`_          write only:rst,         `tabulate`_       2.6, 2.7, 3.3, 3.4
-                            mediawiki, html,                          3.5, 3.6, pypy
-                            latex, grid, pipe,
-                            orgtbl, plain simple
-                            read only: ndjson
-                            r/w: json
-   `pyexcel-handsontable`_  handsontable in html    `handsontable`_   same as above
-   `pyexcel-pygal`_         svg chart               `pygal`_          2.7, 3.3, 3.4, 3.5
-                                                                      3.6, pypy
-   `pyexcel-sortable`_      sortable table in html  `csvtotable`_     same as above
-   `pyexcel-gantt`_         gantt chart in html     `frappe-gantt`_   except pypy, same
-                                                                      as above
    ======================== ======================= ================= ==================
+
 
 .. _pyexcel-io: https://github.com/pyexcel/pyexcel-io
 .. _pyexcel-xls: https://github.com/pyexcel/pyexcel-xls
@@ -207,6 +203,26 @@ Available Plugins
 .. _XlsxWriter: https://github.com/jmcnamara/XlsxWriter
 .. _pyexcel-ezodf: https://github.com/pyexcel/pyexcel-ezodf
 .. _odfpy: https://github.com/eea/odfpy
+
+.. table:: Other data renderers
+
+   ======================== ======================= ================= ==================
+   Package name              Supported file formats  Dependencies     Python versions
+   ======================== ======================= ================= ==================
+
+   `pyexcel-text`_          write only:rst,         `tabulate`_       2.6, 2.7, 3.3, 3.4
+                            mediawiki, html,                          3.5, 3.6, pypy
+                            latex, grid, pipe,
+                            orgtbl, plain simple
+                            read only: ndjson
+                            r/w: json
+   `pyexcel-handsontable`_  handsontable in html    `handsontable`_   same as above
+   `pyexcel-pygal`_         svg chart               `pygal`_          2.7, 3.3, 3.4, 3.5
+                                                                      3.6, pypy
+   `pyexcel-sortable`_      sortable table in html  `csvtotable`_     same as above
+   `pyexcel-gantt`_         gantt chart in html     `frappe-gantt`_   except pypy, same
+                                                                      as above
+   ======================== ======================= ================= ==================
 
 .. _pyexcel-text: https://github.com/pyexcel/pyexcel-text
 .. _tabulate: https://bitbucket.org/astanin/python-tabulate

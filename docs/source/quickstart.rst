@@ -74,34 +74,13 @@ where `start_row` skips the header row.
 Get a dictionary
 ********************************************************************************
 
-Suppose you have a xls file as the following:
-
-.. pyexcel-table::
-
-   ---pyexcel:data with columns---
-   Column 1,Column 2,Column 3
-   1,4,7
-   2,5,8
-   3,6,9
-
-.. testcode::
-   :hide:
-
-   >>> data = [
-   ...      ["Column 1", "Column 2", "Column 3"],
-   ...      [1, 2, 3],
-   ...      [4, 5, 6],
-   ...      [7, 8, 9]
-   ...  ]
-   >>> s = p.Sheet(data)
-   >>> s.save_as("example_series.xls")
-
+You can get a dictionary too:
 
 Now let's get a dictionary out from the spreadsheet:
 
 .. code-block:: python
     
-   >>> my_dict = p.get_dict(file_name="example_series.xls", name_columns_by_row=0)
+   >>> my_dict = p.get_dict(file_name="your_file.xls", name_columns_by_row=0)
 
 And check what do we have::
 
@@ -110,9 +89,9 @@ And check what do we have::
    True
    >>> for key, values in my_dict.items():
    ...     print({str(key): values})
-   {'Column 1': [1, 4, 7]}
-   {'Column 2': [2, 5, 8]}
-   {'Column 3': [3, 6, 9]}
+   {'Coffees': [u'Starbucks Coffee Blonde Roast', u"Dunkin' Donuts Coffee with Turbo Shot", u'Starbucks Coffee Pike Place Roast', u'Panera Coffee Light Roast']}
+   {'Serving Size': [u'venti(20 oz)', u'large(20 oz.)', u'grande(16 oz.)', u'regular(16 oz.)']}
+   {'Caffeine (mg)': [475, 398, 310, 300]}
 
 Please note that my_dict is an OrderedDict.
 
@@ -493,5 +472,4 @@ for the output file, you can specify any of the supported formats
    >>> os.unlink('ccs.csv')
    >>> os.unlink("book.xls")
    >>> os.unlink("your_file.xls")
-   >>> os.unlink("example_series.xls")
    >>> os.unlink("example.csv")
